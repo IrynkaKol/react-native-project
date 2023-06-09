@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   View,
   Text,
@@ -5,47 +6,76 @@ import {
   TextInput,
   TouchableOpacity,
   ImageBackground,
-  Button,
+  Platform,
+  Keyboard,
+  KeyboardAvoidingView,
+  TouchableWithoutFeedback,
+  
 } from "react-native";
 import backgroundImage from "../../assets/images/background.png";
 
 export const RegistrationScreen = ({}) => {
+  const [isShowKeybord, setIsShowKeybord] = useState(false);
+
   return (
     <ImageBackground
       source={backgroundImage}
       resizeMode="cover"
       style={styles.background}
     >
-      <View style={styles.container}>
-        <View>
-          <Text style={styles.title}>Реєстрація</Text>
-        </View>
-        <View style={styles.formContiner}>
-          <TextInput style={styles.inputForm} placeholder="Логін" />
-          <TextInput
-            style={styles.inputForm}
-            placeholder="Адреса електронної пошти"
-          />
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <KeyboardAvoidingView
+          behavior={Platform.OS === "ios" ? "padding" : "height"}
+           keyboardVerticalOffset={Platform.OS === "ios" ? -145 : -145}
+        >
+          <View style={{...styles.container, paddingBottom: isShowKeybord ? 32 : 78}}>
+            <View
+              style={{
+                width: 120,
+                height: 120,
+                backgroundColor: "#F6F6F6",
+                borderRadius: 16,
+                position: "absolute",
+                left: 128,
+                top: -60,
+              }}
+            ></View>
+            <Text style={styles.headerTitle}>Реєстрація</Text>
 
-          <View style={styles.passwordContainer}>
-            <TextInput
-              style={styles.inputForm}
-              placeholder="Пароль"
-              secureTextEntry={true}
-            />
-            <TouchableOpacity style={styles.passswordButton}>
-              <Text>Показати</Text>
+            <View style={styles.formContainer}>
+              <TextInput
+                style={styles.inputForm}
+                placeholder="Логін"
+                onFocus={() => setIsShowKeybord(true)}
+              />
+              <TextInput
+                style={styles.inputForm}
+                placeholder="Адреса електронної пошти"
+                onFocus={() => setIsShowKeybord(true)}
+              />
+
+              <View style={styles.passwordContainer}>
+                <TextInput
+                  style={styles.inputForm}
+                  placeholder="Пароль"
+                  secureTextEntry={true}
+                  onFocus={() => setIsShowKeybord(true)}
+                />
+                <TouchableOpacity style={styles.passswordButton}>
+                  <Text>Показати</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+            <TouchableOpacity style={styles.button} activeOpacity="0.5">
+              <Text style={styles.buttonTitle}>Зареєструватися</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity>
+              <Text style={styles.textLogin}>Вже є акаунт? Увійти</Text>
             </TouchableOpacity>
           </View>
-        </View>
-        <TouchableOpacity style={styles.button}>
-          <Text style={styles.buttonTitle}>Зареєструватися</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity>
-          <Text style={styles.textLogin}>Вже є акаунт? Увійти</Text>
-        </TouchableOpacity>
-      </View>
+        </KeyboardAvoidingView>
+      </TouchableWithoutFeedback>
     </ImageBackground>
   );
 };
@@ -53,29 +83,26 @@ export const RegistrationScreen = ({}) => {
 const styles = StyleSheet.create({
   background: {
     flex: 1,
-    justifyContent: "center",
+    justifyContent: "flex-end",
   },
 
   container: {
     backgroundColor: "#fff",
-    // justifyContent: 'center',
-    // alignItems: 'center',
     borderTopLeftRadius: 25,
     borderTopRightRadius: 25,
-    marginTop: 263,
-    minHeight: 549,
     paddingTop: 92,
-    paddingBottom: 78,
+    // paddingBottom: 78,
     paddingHorizontal: 16,
+    position: "relative",
   },
-  title: {
+  headerTitle: {
     textAlign: "center",
     marginBottom: 33,
     fontSize: 30,
   },
-  formContiner: {
+  formContainer: {
     gap: 16,
-    marginBottom: 32,
+    marginBottom: 43,
   },
 
   inputForm: {
@@ -107,8 +134,8 @@ const styles = StyleSheet.create({
     right: 15,
   },
   textLogin: {
-    color: '#1B4371',
+    color: "#1B4371",
     fontSize: 16,
-    textAlign:'center'
-  }
+    textAlign: "center",
+  },
 });

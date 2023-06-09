@@ -28,7 +28,11 @@ export const RegistrationScreen = ({}) => {
           />
 
           <View style={styles.passwordContainer}>
-            <TextInput style={styles.inputForm} placeholder="Пароль" secureTextEntry={true} />
+            <TextInput
+              style={styles.inputForm}
+              placeholder="Пароль"
+              secureTextEntry={true}
+            />
             <TouchableOpacity style={styles.passswordButton}>
               <Text>Показати</Text>
             </TouchableOpacity>
@@ -37,9 +41,9 @@ export const RegistrationScreen = ({}) => {
         <TouchableOpacity style={styles.button}>
           <Text style={styles.buttonTitle}>Зареєструватися</Text>
         </TouchableOpacity>
-        
+
         <TouchableOpacity>
-          <Text>Вже є акаунт? Увійти</Text>
+          <Text style={styles.textLogin}>Вже є акаунт? Увійти</Text>
         </TouchableOpacity>
       </View>
     </ImageBackground>
@@ -48,8 +52,8 @@ export const RegistrationScreen = ({}) => {
 
 const styles = StyleSheet.create({
   background: {
-    flex: 1, 
-    justifyContent: "center"
+    flex: 1,
+    justifyContent: "center",
   },
 
   container: {
@@ -67,7 +71,7 @@ const styles = StyleSheet.create({
   title: {
     textAlign: "center",
     marginBottom: 33,
-    fontSize: 30
+    fontSize: 30,
   },
   formContiner: {
     gap: 16,
@@ -82,21 +86,17 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     backgroundColor: "#F6F6F6",
     fontSize: 16,
-   
   },
   button: {
-backgroundColor:'#FF6C00',
-borderRadius: 100,
-paddingVertical: 16,
-marginBottom: 16,
+    backgroundColor: "#FF6C00",
+    borderRadius: 100,
+    paddingVertical: 16,
+    marginBottom: 16,
   },
   buttonTitle: {
     fontSize: 16,
-    color: '#FFFFFF',
-    textAlign:'center',
-    
-   
-    
+    color: "#FFFFFF",
+    textAlign: "center",
   },
   passwordContainer: {
     position: "relative",
@@ -106,4 +106,9 @@ marginBottom: 16,
     top: 16,
     right: 15,
   },
+  textLogin: {
+    color: '#1B4371',
+    fontSize: 16,
+    textAlign:'center'
+  }
 });

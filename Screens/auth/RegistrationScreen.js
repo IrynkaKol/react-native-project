@@ -10,6 +10,7 @@ import {
   Keyboard,
   KeyboardAvoidingView,
   TouchableWithoutFeedback,
+  Dimensions
   
 } from "react-native";
 import backgroundImage from "../../assets/images/background.png";
@@ -123,6 +124,7 @@ const styles = StyleSheet.create({
     marginBottom: 33,
     fontFamily: 'Roboto-Medium',
     fontSize: 30,
+    lineHeight: 35
   },
   formContainer: {
     gap: 16,
@@ -138,6 +140,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#F6F6F6",
     fontFamily: 'Roboto-Regular',
     fontSize: 16,
+    lineHeight: 19
   },
   button: {
     backgroundColor: "#FF6C00",
@@ -147,6 +150,7 @@ const styles = StyleSheet.create({
   },
   buttonTitle: {
     fontSize: 16,
+    lineHeight:  19,
     fontFamily: 'Roboto-Regular',
     color: "#FFFFFF",
     textAlign: "center",
@@ -161,6 +165,7 @@ const styles = StyleSheet.create({
   },
   passswordButtonText: {
     fontSize: 16,
+    lineHeight:  19,
     fontFamily: 'Roboto-Regular',
     color: '#1B4371'
   },
@@ -168,6 +173,7 @@ const styles = StyleSheet.create({
     color: "#1B4371",
     fontFamily: 'Roboto-Regular',
     fontSize: 16,
+    lineHeight:  19,
     textAlign: "center",
   },
 });

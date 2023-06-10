@@ -14,16 +14,31 @@ import {
 } from "react-native";
 import backgroundImage from "../../assets/images/background.png";
 
+const initialState = {
+  login: '',
+  email: '',
+  password: ''
+}
+
 export const RegistrationScreen = ({}) => {
   const [isShowKeybord, setIsShowKeybord] = useState(false);
+  const [state, setState] = useState(initialState)
+
+
+  const keyboardHide = () => {
+    setIsShowKeybord(false)
+    Keyboard.dismiss()
+    console.log(state)
+  }
 
   return (
+    <TouchableWithoutFeedback onPress={keyboardHide}>
     <ImageBackground
       source={backgroundImage}
       resizeMode="cover"
       style={styles.background}
     >
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      
         <KeyboardAvoidingView
           behavior={Platform.OS === "ios" ? "padding" : "height"}
            keyboardVerticalOffset={Platform.OS === "ios" ? -145 : -145}
@@ -47,11 +62,13 @@ export const RegistrationScreen = ({}) => {
                 style={styles.inputForm}
                 placeholder="Логін"
                 onFocus={() => setIsShowKeybord(true)}
+                onChangeText={(value) => setState((prev) => ({...prev, login: value}))}
               />
               <TextInput
                 style={styles.inputForm}
                 placeholder="Адреса електронної пошти"
                 onFocus={() => setIsShowKeybord(true)}
+                onChangeText={(value) => setState((prev) => ({...prev, email: value}))}
               />
 
               <View style={styles.passwordContainer}>
@@ -60,13 +77,14 @@ export const RegistrationScreen = ({}) => {
                   placeholder="Пароль"
                   secureTextEntry={true}
                   onFocus={() => setIsShowKeybord(true)}
+                  onChangeText={(value) => setState((prev) => ({...prev, password: value}))}
                 />
                 <TouchableOpacity style={styles.passswordButton}>
                   <Text>Показати</Text>
                 </TouchableOpacity>
               </View>
             </View>
-            <TouchableOpacity style={styles.button} activeOpacity="0.5">
+            <TouchableOpacity style={styles.button} activeOpacity="0.5" onPress={keyboardHide}>
               <Text style={styles.buttonTitle}>Зареєструватися</Text>
             </TouchableOpacity>
 
@@ -75,8 +93,9 @@ export const RegistrationScreen = ({}) => {
             </TouchableOpacity>
           </View>
         </KeyboardAvoidingView>
-      </TouchableWithoutFeedback>
+      
     </ImageBackground>
+    </TouchableWithoutFeedback>
   );
 };
 

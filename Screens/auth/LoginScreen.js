@@ -1,15 +1,155 @@
-import { View, Text, StyleSheet } from "react-native";
+import { useState } from "react";
+import { useNavigation } from "@react-navigation/native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TextInput,
+  TouchableOpacity,
+  ImageBackground,
+  Platform,
+  Keyboard,
+  KeyboardAvoidingView,
+  TouchableWithoutFeedback,
+} from "react-native";
+import backgroundImage from "../../assets/images/background.png";
 
-export const LoginScreen = ({}) => {
-    return (
-        <View>
-            <Text>LoginScreen</Text>
-        </View>
-    )
+const initialState = {
+    email: "",
+    password: "",
 }
+export const LoginScreen = ({}) => {
+    const [isShowKeybord, setIsShowKeybord] = useState(false);
+  const [state, setState] = useState(initialState);
+
+    const navigation = useNavigation();
+    const keyboardHide = () => {
+        setIsShowKeybord(false);
+        Keyboard.dismiss();
+        console.log(state);
+        setState(initialState);
+      };
+  return (
+    <TouchableWithoutFeedback onPress={keyboardHide}>
+    <ImageBackground
+      source={backgroundImage}
+      resizeMode="cover"
+      style={styles.background}
+    >
+        <KeyboardAvoidingView
+          behavior={Platform.OS === "ios" ? "padding" : "height"}
+          keyboardVerticalOffset={Platform.OS === "ios" ? -115 : -145}
+        >
+      <View style={{...styles.container, paddingBottom: isShowKeybord ? 32 : 144}}>
+        <Text style={styles.headerTitle}>Увійти</Text>
+        <View style={styles.formContainer}>
+          <TextInput
+            style={styles.inputForm}
+            placeholder="Адреса електронної пошти"
+            value={state.email}
+                onFocus={() => setIsShowKeybord(true)}
+                onChangeText={(value) =>
+                  setState((prev) => ({ ...prev, email: value }))
+                }
+            
+          />
+          <View style={styles.passwordContainer}>
+            <TextInput style={styles.inputForm} placeholder="Пароль"
+            secureTextEntry={true}
+            value={state.password}
+            onFocus={() => setIsShowKeybord(true)}
+            onChangeText={(value) =>
+              setState((prev) => ({ ...prev, password: value }))
+            } />
+            <TouchableOpacity style={styles.passswordButton}>
+              <Text style={styles.passswordButtonText}>Показати</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+        <TouchableOpacity
+              style={styles.button}
+              activeOpacity="0.5"
+              onPress={keyboardHide}
+            >
+              <Text style={styles.buttonTitle}>Увійти</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => navigation.navigate("Registration")}>
+              <Text style={styles.textRegistration}>Немає акаунту? Зареєструватися</Text>
+            </TouchableOpacity>
+      </View>
+      </KeyboardAvoidingView>
+    </ImageBackground>
+    </TouchableWithoutFeedback>
+  );
+};
 
 const styles = StyleSheet.create({
-    container: {
-        
-    }
-})
+  background: {
+    flex: 1,
+    justifyContent: "flex-end",
+  },
+  container: {
+    backgroundColor: "#fff",
+    borderTopLeftRadius: 25,
+    borderTopRightRadius: 25,
+    paddingTop: 32,
+    paddingHorizontal: 16,
+    
+  },
+  headerTitle: {
+    textAlign: "center",
+    marginBottom: 33,
+    fontFamily: "Roboto-Medium",
+    fontSize: 30,
+    lineHeight: 35,
+  },
+  formContainer: {
+    gap: 16,
+    marginBottom: 43,
+  },
+  inputForm: {
+    height: 50,
+    padding: 16,
+    borderWidth: 1,
+    borderColor: "#E8E8E8",
+    borderRadius: 8,
+    backgroundColor: "#F6F6F6",
+    fontFamily: "Roboto-Regular",
+    fontSize: 16,
+    lineHeight: 19,
+  },
+  passwordContainer: {
+    position: "relative",
+  },
+  passswordButton: {
+    position: "absolute",
+    top: 16,
+    right: 15,
+  },
+  passswordButtonText: {
+    fontSize: 16,
+    lineHeight: 19,
+    fontFamily: "Roboto-Regular",
+    color: "#1B4371",
+  },
+  button: {
+    backgroundColor: "#FF6C00",
+    borderRadius: 100,
+    paddingVertical: 16,
+    marginBottom: 16,
+  },
+  buttonTitle: {
+    fontSize: 16,
+    lineHeight: 19,
+    fontFamily: "Roboto-Regular",
+    color: "#FFFFFF",
+    textAlign: "center",
+  },
+  textRegistration: {
+    color: "#1B4371",
+    fontFamily: "Roboto-Regular",
+    fontSize: 16,
+    lineHeight: 19,
+    textAlign: "center",
+  },
+});

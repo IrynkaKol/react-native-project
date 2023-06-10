@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation } from "@react-navigation/native";
 import {
   View,
   Text,
@@ -12,44 +12,46 @@ import {
   KeyboardAvoidingView,
   TouchableWithoutFeedback,
   //Dimensions
-  
 } from "react-native";
 import backgroundImage from "../../assets/images/background.png";
-import { AntDesign } from '@expo/vector-icons'; 
+import { AntDesign } from "@expo/vector-icons";
 
 const initialState = {
-  login: '',
-  email: '',
-  password: ''
-}
+  login: "",
+  email: "",
+  password: "",
+};
 
 export const RegistrationScreen = ({}) => {
   const [isShowKeybord, setIsShowKeybord] = useState(false);
-  const [state, setState] = useState(initialState)
+  const [state, setState] = useState(initialState);
 
   const navigation = useNavigation();
 
-
   const keyboardHide = () => {
-    setIsShowKeybord(false)
-    Keyboard.dismiss()
-    console.log(state)
-    setState(initialState)
-  }
+    setIsShowKeybord(false);
+    Keyboard.dismiss();
+    console.log(state);
+    setState(initialState);
+  };
 
   return (
     <TouchableWithoutFeedback onPress={keyboardHide}>
-    <ImageBackground
-      source={backgroundImage}
-      resizeMode="cover"
-      style={styles.background}
-    >
-      
+      <ImageBackground
+        source={backgroundImage}
+        resizeMode="cover"
+        style={styles.background}
+      >
         <KeyboardAvoidingView
           behavior={Platform.OS === "ios" ? "padding" : "height"}
-           keyboardVerticalOffset={Platform.OS === "ios" ? -145 : -145}
+          keyboardVerticalOffset={Platform.OS === "ios" ? -145 : -145}
         >
-          <View style={{...styles.container, paddingBottom: isShowKeybord ? 32 : 78}}>
+          <View
+            style={{
+              ...styles.container,
+              paddingBottom: isShowKeybord ? 32 : 78,
+            }}
+          >
             <View
               style={{
                 width: 120,
@@ -62,7 +64,7 @@ export const RegistrationScreen = ({}) => {
               }}
             >
               <TouchableOpacity style={styles.loadPhoto}>
-              <AntDesign name="pluscircleo" size={25} color="#FF6C00" />
+                <AntDesign name="pluscircleo" size={25} color="#FF6C00" />
               </TouchableOpacity>
             </View>
             <Text style={styles.headerTitle}>Реєстрація</Text>
@@ -73,15 +75,18 @@ export const RegistrationScreen = ({}) => {
                 placeholder="Логін"
                 value={state.login}
                 onFocus={() => setIsShowKeybord(true)}
-                onChangeText={(value) => setState((prev) => ({...prev, login: value}))}
+                onChangeText={(value) =>
+                  setState((prev) => ({ ...prev, login: value }))
+                }
               />
               <TextInput
                 style={styles.inputForm}
                 placeholder="Адреса електронної пошти"
                 value={state.email}
                 onFocus={() => setIsShowKeybord(true)}
-              
-                onChangeText={(value) => setState((prev) => ({...prev, email: value}))}
+                onChangeText={(value) =>
+                  setState((prev) => ({ ...prev, email: value }))
+                }
               />
 
               <View style={styles.passwordContainer}>
@@ -91,25 +96,29 @@ export const RegistrationScreen = ({}) => {
                   secureTextEntry={true}
                   value={state.password}
                   onFocus={() => setIsShowKeybord(true)}
-                  onChangeText={(value) => setState((prev) => ({...prev, password: value}))}
+                  onChangeText={(value) =>
+                    setState((prev) => ({ ...prev, password: value }))
+                  }
                 />
                 <TouchableOpacity style={styles.passswordButton}>
                   <Text style={styles.passswordButtonText}>Показати</Text>
                 </TouchableOpacity>
               </View>
             </View>
-            <TouchableOpacity style={styles.button} activeOpacity="0.5" onPress={keyboardHide}>
+            <TouchableOpacity
+              style={styles.button}
+              activeOpacity="0.5"
+              onPress={keyboardHide}
+            >
               <Text style={styles.buttonTitle}>Зареєструватися</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity 
-            onPress={() => navigation.navigate("Login")}>
+            <TouchableOpacity onPress={() => navigation.navigate("Login")}>
               <Text style={styles.textLogin}>Вже є акаунт? Увійти</Text>
             </TouchableOpacity>
           </View>
         </KeyboardAvoidingView>
-      
-    </ImageBackground>
+      </ImageBackground>
     </TouchableWithoutFeedback>
   );
 };
@@ -129,7 +138,7 @@ const styles = StyleSheet.create({
     position: "relative",
   },
   loadPhoto: {
-    position: 'absolute',
+    position: "absolute",
     right: -12,
     bottom: 14,
   },
@@ -137,9 +146,9 @@ const styles = StyleSheet.create({
   headerTitle: {
     textAlign: "center",
     marginBottom: 33,
-    fontFamily: 'Roboto-Medium',
+    fontFamily: "Roboto-Medium",
     fontSize: 30,
-    lineHeight: 35
+    lineHeight: 35,
   },
   formContainer: {
     gap: 16,
@@ -153,9 +162,9 @@ const styles = StyleSheet.create({
     borderColor: "#E8E8E8",
     borderRadius: 8,
     backgroundColor: "#F6F6F6",
-    fontFamily: 'Roboto-Regular',
+    fontFamily: "Roboto-Regular",
     fontSize: 16,
-    lineHeight: 19
+    lineHeight: 19,
   },
   button: {
     backgroundColor: "#FF6C00",
@@ -165,8 +174,8 @@ const styles = StyleSheet.create({
   },
   buttonTitle: {
     fontSize: 16,
-    lineHeight:  19,
-    fontFamily: 'Roboto-Regular',
+    lineHeight: 19,
+    fontFamily: "Roboto-Regular",
     color: "#FFFFFF",
     textAlign: "center",
   },
@@ -180,15 +189,15 @@ const styles = StyleSheet.create({
   },
   passswordButtonText: {
     fontSize: 16,
-    lineHeight:  19,
-    fontFamily: 'Roboto-Regular',
-    color: '#1B4371'
+    lineHeight: 19,
+    fontFamily: "Roboto-Regular",
+    color: "#1B4371",
   },
   textLogin: {
     color: "#1B4371",
-    fontFamily: 'Roboto-Regular',
+    fontFamily: "Roboto-Regular",
     fontSize: 16,
-    lineHeight:  19,
+    lineHeight: 19,
     textAlign: "center",
   },
 });

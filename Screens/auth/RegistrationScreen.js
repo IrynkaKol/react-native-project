@@ -14,6 +14,7 @@ import {
   
 } from "react-native";
 import backgroundImage from "../../assets/images/background.png";
+import { AntDesign } from '@expo/vector-icons'; 
 
 const initialState = {
   login: '',
@@ -56,7 +57,11 @@ export const RegistrationScreen = ({}) => {
                 left: 128,
                 top: -60,
               }}
-            ></View>
+            >
+              <TouchableOpacity style={styles.loadPhoto}>
+              <AntDesign name="pluscircleo" size={25} color="#FF6C00" />
+              </TouchableOpacity>
+            </View>
             <Text style={styles.headerTitle}>Реєстрація</Text>
 
             <View style={styles.formContainer}>
@@ -119,6 +124,12 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     position: "relative",
   },
+  loadPhoto: {
+    position: 'absolute',
+    right: -12,
+    bottom: 14,
+  },
+
   headerTitle: {
     textAlign: "center",
     marginBottom: 33,

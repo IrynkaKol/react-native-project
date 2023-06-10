@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigation } from '@react-navigation/native';
 import {
   View,
   Text,
@@ -10,7 +11,7 @@ import {
   Keyboard,
   KeyboardAvoidingView,
   TouchableWithoutFeedback,
-  Dimensions
+  //Dimensions
   
 } from "react-native";
 import backgroundImage from "../../assets/images/background.png";
@@ -25,6 +26,8 @@ const initialState = {
 export const RegistrationScreen = ({}) => {
   const [isShowKeybord, setIsShowKeybord] = useState(false);
   const [state, setState] = useState(initialState)
+
+  const navigation = useNavigation();
 
 
   const keyboardHide = () => {
@@ -99,7 +102,8 @@ export const RegistrationScreen = ({}) => {
               <Text style={styles.buttonTitle}>Зареєструватися</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity>
+            <TouchableOpacity 
+            onPress={() => navigation.navigate("Login")}>
               <Text style={styles.textLogin}>Вже є акаунт? Увійти</Text>
             </TouchableOpacity>
           </View>

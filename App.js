@@ -1,34 +1,32 @@
 // import { StatusBar } from 'expo-status-bar';
+import "react-native-gesture-handler";
+import React from "react";
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
 import { useState } from "react";
-import { StyleSheet, Text, View, FlatList } from "react-native";
-import { useFonts } from 'expo-font';
+import { useFonts } from "expo-font";
 // import { Navbar } from "./Screens/NavBar/Navbar";
 import { RegistrationScreen } from "./Screens/auth/RegistrationScreen";
+import { LoginScreen } from "./Screens/auth/LoginScreen";
 
+const MainStack = createStackNavigator();
 
 export default function App() {
   const [fontsLoaded] = useFonts({
-    'Roboto-Regular': require('./assets/fonts/Roboto-Regular.ttf'),
-    'Roboto-Medium': require('./assets/fonts/Roboto-Medium.ttf'),
+    "Roboto-Regular": require("./assets/fonts/Roboto-Regular.ttf"),
+    "Roboto-Medium": require("./assets/fonts/Roboto-Medium.ttf"),
   });
 
   if (!fontsLoaded) {
     return null;
   }
-  
+
   return (
-    <View style={styles.container}>
-      
-      <RegistrationScreen />
-      
-    </View>
+    <NavigationContainer>
+      <MainStack.Navigator initialRouteName="Registration">
+        <MainStack.Screen name="Registration" component={RegistrationScreen} />
+        <MainStack.Screen name="Login" component={LoginScreen} />
+      </MainStack.Navigator>
+    </NavigationContainer>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    // justifyContent: 'center',
-    
-  },
-});

@@ -29,6 +29,7 @@ export const RegistrationScreen = ({}) => {
     setIsShowKeybord(false)
     Keyboard.dismiss()
     console.log(state)
+    setState(initialState)
   }
 
   return (
@@ -61,13 +62,16 @@ export const RegistrationScreen = ({}) => {
               <TextInput
                 style={styles.inputForm}
                 placeholder="Логін"
+                value={state.login}
                 onFocus={() => setIsShowKeybord(true)}
                 onChangeText={(value) => setState((prev) => ({...prev, login: value}))}
               />
               <TextInput
                 style={styles.inputForm}
                 placeholder="Адреса електронної пошти"
+                value={state.email}
                 onFocus={() => setIsShowKeybord(true)}
+              
                 onChangeText={(value) => setState((prev) => ({...prev, email: value}))}
               />
 
@@ -76,11 +80,12 @@ export const RegistrationScreen = ({}) => {
                   style={styles.inputForm}
                   placeholder="Пароль"
                   secureTextEntry={true}
+                  value={state.password}
                   onFocus={() => setIsShowKeybord(true)}
                   onChangeText={(value) => setState((prev) => ({...prev, password: value}))}
                 />
                 <TouchableOpacity style={styles.passswordButton}>
-                  <Text>Показати</Text>
+                  <Text style={styles.passswordButtonText}>Показати</Text>
                 </TouchableOpacity>
               </View>
             </View>
@@ -116,6 +121,7 @@ const styles = StyleSheet.create({
   headerTitle: {
     textAlign: "center",
     marginBottom: 33,
+    fontFamily: 'Roboto-Medium',
     fontSize: 30,
   },
   formContainer: {
@@ -130,6 +136,7 @@ const styles = StyleSheet.create({
     borderColor: "#E8E8E8",
     borderRadius: 8,
     backgroundColor: "#F6F6F6",
+    fontFamily: 'Roboto-Regular',
     fontSize: 16,
   },
   button: {
@@ -140,6 +147,7 @@ const styles = StyleSheet.create({
   },
   buttonTitle: {
     fontSize: 16,
+    fontFamily: 'Roboto-Regular',
     color: "#FFFFFF",
     textAlign: "center",
   },
@@ -151,8 +159,14 @@ const styles = StyleSheet.create({
     top: 16,
     right: 15,
   },
+  passswordButtonText: {
+    fontSize: 16,
+    fontFamily: 'Roboto-Regular',
+    color: '#1B4371'
+  },
   textLogin: {
     color: "#1B4371",
+    fontFamily: 'Roboto-Regular',
     fontSize: 16,
     textAlign: "center",
   },

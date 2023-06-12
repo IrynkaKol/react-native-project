@@ -47,6 +47,9 @@ export const RegistrationScreen = ({}) => {
       alert("You did not select any image.");
     }
   };
+  const handleDeleteImage = () => {
+    setSelectedImage(null);
+  };
 
   return (
     <TouchableWithoutFeedback onPress={keyboardHide}>
@@ -63,7 +66,7 @@ export const RegistrationScreen = ({}) => {
             <ImageViewer
               selectedImage={selectedImage}
               onPress={pickImageAsync}
-              onDelete={setSelectedImage}
+              onDelete={handleDeleteImage}
             />
 
             <Text style={styles.headerTitle}>Реєстрація</Text>

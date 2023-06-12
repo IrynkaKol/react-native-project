@@ -44,13 +44,10 @@ export const RegistrationScreen = ({}) => {
       >
         <KeyboardAvoidingView
           behavior={Platform.OS === "ios" ? "padding" : "height"}
-          keyboardVerticalOffset={Platform.OS === "ios" ? -145 : -145}
+          keyboardVerticalOffset={Platform.OS === "ios" ? -165 : -145}
         >
           <View
-            style={{
-              ...styles.container,
-              paddingBottom: isShowKeybord ? 32 : 78,
-            }}
+            style={styles.container}
           >
             <View
               style={{
@@ -69,7 +66,7 @@ export const RegistrationScreen = ({}) => {
             </View>
             <Text style={styles.headerTitle}>Реєстрація</Text>
 
-            <View style={styles.formContainer}>
+            <View style={{...styles.formContainer, marginBottom: isShowKeybord ? 43 : 32}}>
               <TextInput
                 style={styles.inputForm}
                 placeholder="Логін"
@@ -134,6 +131,7 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 25,
     borderTopRightRadius: 25,
     paddingTop: 92,
+    paddingBottom: 78, 
     paddingHorizontal: 16,
     position: "relative",
   },
@@ -152,7 +150,7 @@ const styles = StyleSheet.create({
   },
   formContainer: {
     gap: 16,
-    marginBottom: 43,
+    // marginBottom: 43,
   },
 
   inputForm: {

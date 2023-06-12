@@ -15,70 +15,82 @@ import {
 import backgroundImage from "../../assets/images/background.png";
 
 const initialState = {
-    email: "",
-    password: "",
-}
+  email: "",
+  password: "",
+};
 export const LoginScreen = ({}) => {
-    const [isShowKeybord, setIsShowKeybord] = useState(false);
+  const [isShowKeybord, setIsShowKeybord] = useState(false);
   const [state, setState] = useState(initialState);
 
-    const navigation = useNavigation();
-    const keyboardHide = () => {
-        setIsShowKeybord(false);
-        Keyboard.dismiss();
-        console.log(state);
-        setState(initialState);
-      };
+  const navigation = useNavigation();
+
+  const keyboardHide = () => {
+    setIsShowKeybord(false);
+    Keyboard.dismiss();
+    console.log(state);
+    setState(initialState);
+  };
   return (
     <TouchableWithoutFeedback onPress={keyboardHide}>
-    <ImageBackground
-      source={backgroundImage}
-      resizeMode="cover"
-      style={styles.background}
-    >
+      <ImageBackground
+        source={backgroundImage}
+        resizeMode="cover"
+        style={styles.background}
+      >
         <KeyboardAvoidingView
           behavior={Platform.OS === "ios" ? "padding" : "height"}
-          keyboardVerticalOffset={Platform.OS === "ios" ? -115 : -145}
+          keyboardVerticalOffset={Platform.OS === "ios" ? -200 : -200}
         >
-      <View style={{...styles.container, paddingBottom: isShowKeybord ? 32 : 144}}>
-        <Text style={styles.headerTitle}>Увійти</Text>
-        <View style={styles.formContainer}>
-          <TextInput
-            style={styles.inputForm}
-            placeholder="Адреса електронної пошти"
-            value={state.email}
+          <View style={styles.container}>
+            <Text style={styles.headerTitle}>Увійти</Text>
+            <View
+              style={{
+                ...styles.formContainer,
+                marginBottom: isShowKeybord ? 43 : 32,
+              }}
+            >
+              <TextInput
+                style={styles.inputForm}
+                placeholder="Адреса електронної пошти"
+                value={state.email}
                 onFocus={() => setIsShowKeybord(true)}
                 onChangeText={(value) =>
                   setState((prev) => ({ ...prev, email: value }))
                 }
-            
-          />
-          <View style={styles.passwordContainer}>
-            <TextInput style={styles.inputForm} placeholder="Пароль"
-            secureTextEntry={true}
-            value={state.password}
-            onFocus={() => setIsShowKeybord(true)}
-            onChangeText={(value) =>
-              setState((prev) => ({ ...prev, password: value }))
-            } />
-            <TouchableOpacity style={styles.passswordButton}>
-              <Text style={styles.passswordButtonText}>Показати</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-        <TouchableOpacity
+              />
+              <View style={styles.passwordContainer}>
+                <TextInput
+                  style={styles.inputForm}
+                  placeholder="Пароль"
+                  secureTextEntry={true}
+                  value={state.password}
+                  onFocus={() => setIsShowKeybord(true)}
+                  onChangeText={(value) =>
+                    setState((prev) => ({ ...prev, password: value }))
+                  }
+                />
+                <TouchableOpacity style={styles.passswordButton}>
+                  <Text style={styles.passswordButtonText}>Показати</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+            <TouchableOpacity
               style={styles.button}
               activeOpacity="0.5"
               onPress={keyboardHide}
             >
               <Text style={styles.buttonTitle}>Увійти</Text>
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => navigation.navigate("Registration")}>
-              <Text style={styles.textRegistration}>Немає акаунту? Зареєструватися</Text>
+            <TouchableOpacity
+              onPress={() => navigation.navigate("Registration")}
+            >
+              <Text style={styles.textRegistration}>
+                Немає акаунту? Зареєструватися
+              </Text>
             </TouchableOpacity>
-      </View>
-      </KeyboardAvoidingView>
-    </ImageBackground>
+          </View>
+        </KeyboardAvoidingView>
+      </ImageBackground>
     </TouchableWithoutFeedback>
   );
 };
@@ -93,8 +105,8 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 25,
     borderTopRightRadius: 25,
     paddingTop: 32,
+    paddingBottom: 144,
     paddingHorizontal: 16,
-    
   },
   headerTitle: {
     textAlign: "center",
@@ -105,7 +117,7 @@ const styles = StyleSheet.create({
   },
   formContainer: {
     gap: 16,
-    marginBottom: 43,
+    // marginBottom: 43,
   },
   inputForm: {
     height: 50,

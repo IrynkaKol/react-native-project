@@ -11,10 +11,10 @@ import {
   Keyboard,
   KeyboardAvoidingView,
   TouchableWithoutFeedback,
-  //Dimensions
 } from "react-native";
 import backgroundImage from "../../assets/images/background.png";
-import { AntDesign } from "@expo/vector-icons";
+import * as ImagePicker from "expo-image-picker";
+import {ImageViewer} from "../../components/ImageViewer"
 
 const initialState = {
   login: "",
@@ -25,6 +25,7 @@ const initialState = {
 export const RegistrationScreen = ({}) => {
   const [isShowKeybord, setIsShowKeybord] = useState(false);
   const [state, setState] = useState(initialState);
+  const [selectedImage, setSelectedImage] = useState(null);
 
   const navigation = useNavigation();
 
@@ -33,6 +34,18 @@ export const RegistrationScreen = ({}) => {
     Keyboard.dismiss();
     console.log(state);
     setState(initialState);
+  };
+  const pickImageAsync = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      allowsEditing: true,
+      quality: 1,
+    });
+
+    if (!result.canceled) {
+      setSelectedImage(result.assets[0].uri);
+    } else {
+      alert("You did not select any image.");
+    }
   };
 
   return (
@@ -46,27 +59,21 @@ export const RegistrationScreen = ({}) => {
           behavior={Platform.OS === "ios" ? "padding" : "height"}
           keyboardVerticalOffset={Platform.OS === "ios" ? -165 : -145}
         >
-          <View
-            style={styles.container}
-          >
-            <View
-              style={{
-                width: 120,
-                height: 120,
-                backgroundColor: "#F6F6F6",
-                borderRadius: 16,
-                position: "absolute",
-                left: 128,
-                top: -60,
-              }}
-            >
-              <TouchableOpacity style={styles.loadPhoto}>
-                <AntDesign name="pluscircleo" size={25} color="#FF6C00" />
-              </TouchableOpacity>
-            </View>
+          <View style={styles.container}>
+            <ImageViewer
+              selectedImage={selectedImage}
+              onPress={pickImageAsync}
+              onDelete={setSelectedImage}
+            />
+
             <Text style={styles.headerTitle}>Реєстрація</Text>
 
-            <View style={{...styles.formContainer, marginBottom: isShowKeybord ? 43 : 32}}>
+            <View
+              style={{
+                ...styles.formContainer,
+                marginBottom: isShowKeybord ? 43 : 32,
+              }}
+            >
               <TextInput
                 style={styles.inputForm}
                 placeholder="Логін"
@@ -131,15 +138,11 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 25,
     borderTopRightRadius: 25,
     paddingTop: 92,
-    paddingBottom: 78, 
+    paddingBottom: 78,
     paddingHorizontal: 16,
     position: "relative",
   },
-  loadPhoto: {
-    position: "absolute",
-    right: -12,
-    bottom: 14,
-  },
+ 
 
   headerTitle: {
     textAlign: "center",

@@ -34,6 +34,7 @@ export const RegistrationScreen = ({}) => {
     Keyboard.dismiss();
     console.log(state);
     setState(initialState);
+    navigation.navigate("Home")
   };
   const pickImageAsync = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -114,10 +115,10 @@ export const RegistrationScreen = ({}) => {
             </View>
             <TouchableOpacity
               style={styles.button}
-              activeOpacity="0.5"
+              activeOpacity={0.5}
               onPress={keyboardHide}
             >
-              <Text style={styles.buttonTitle} onPress={() => navigation.navigate("Home")}>Зареєструватися</Text>
+              <Text style={styles.buttonTitle} >Зареєструватися</Text>
             </TouchableOpacity>
 
             <TouchableOpacity onPress={() => navigation.navigate("Login")}>

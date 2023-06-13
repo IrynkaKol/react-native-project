@@ -23,6 +23,7 @@ const initialState = {
 };
 
 export const RegistrationScreen = ({}) => {
+  
   const [isShowKeybord, setIsShowKeybord] = useState(false);
   const [state, setState] = useState(initialState);
   const [selectedImage, setSelectedImage] = useState(null);

@@ -86,7 +86,9 @@ export const LoginScreen = ({}) => {
               onPress={() => navigation.navigate("Registration")}
             >
               <Text style={styles.textRegistration}>
-                Немає акаунту? Зареєструватися
+                Немає акаунту? {' '}
+                <Text style={{textDecorationLine: 'underline'}}>
+                Зареєструватися</Text>
               </Text>
             </TouchableOpacity>
           </View>

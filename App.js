@@ -8,10 +8,10 @@ import { useFonts } from "expo-font";
 // import { Navbar } from "./Screens/NavBar/Navbar";
 import { RegistrationScreen } from "./Screens/auth/RegistrationScreen";
 import { LoginScreen } from "./Screens/auth/LoginScreen";
-import {Home} from "./Screens/Home/Home"
+import { Home } from "./Screens/Home/Home";
 import { PostsScreen } from "./Screens/PostsScreen/PostsScreen";
 import { Button, TouchableOpacity } from "react-native";
-import { MaterialIcons } from '@expo/vector-icons';
+import { MaterialIcons } from "@expo/vector-icons";
 
 const MainStack = createStackNavigator();
 
@@ -28,27 +28,39 @@ export default function App() {
   return (
     <NavigationContainer>
       <MainStack.Navigator initialRouteName="Registration">
-        <MainStack.Screen name="Registration" component={RegistrationScreen} options={{headerShown: false}} />
-        <MainStack.Screen name="Login" component={LoginScreen} options={{headerShown: false}}/>
-        <MainStack.Screen name="Home" component={Home} options={{
-          title: "Публікації",
-          headerStyle: {
-            backgroundColor: "#FFFFFF",
-          },
-          headerTitle: 'PostsScreen',
-          headerTintColor: "#212121",
-          headerTitleStyle: {
-            fontFamily: "Roboto-Regular",
-            fontSize: 17,
-            lineHeight: 22,
-            
-          },headerRight: () => (
-              <TouchableOpacity
-                style={{marginRight: 10, marginBottom: 10}}              
-              >
+        <MainStack.Screen
+          name="Registration"
+          component={RegistrationScreen}
+          options={{ headerShown: false }}
+        />
+        <MainStack.Screen
+          name="Login"
+          component={LoginScreen}
+          options={{ headerShown: false }}
+        />
+        <MainStack.Screen
+          name="Home"
+          component={Home}
+          options={{
+            title: "Публікації",
+            headerStyle: {
+              backgroundColor: "#FFFFFF",
+            },
+            headerTitle: "PostsScreen",
+            headerTintColor: "#212121",
+            headerTitleStyle: {
+              fontFamily: "Roboto-Regular",
+              fontSize: 17,
+              lineHeight: 22,
+            },
+            headerRight: () => (
+              <TouchableOpacity style={{ marginRight: 10, marginBottom: 10 }}>
                 <MaterialIcons name="logout" size={24} color="#BDBDBD" />
-              </TouchableOpacity>)}}/>
-        <MainStack.Screen name="PostsScreen" component={PostsScreen}  />
+              </TouchableOpacity>
+            ),
+          }}
+        />
+        <MainStack.Screen name="PostsScreen" component={PostsScreen} />
       </MainStack.Navigator>
     </NavigationContainer>
   );

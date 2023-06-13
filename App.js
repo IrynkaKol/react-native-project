@@ -8,6 +8,7 @@ import { useFonts } from "expo-font";
 // import { Navbar } from "./Screens/NavBar/Navbar";
 import { RegistrationScreen } from "./Screens/auth/RegistrationScreen";
 import { LoginScreen } from "./Screens/auth/LoginScreen";
+import {Home} from "./Screens/Home/Home"
 
 const MainStack = createStackNavigator();
 
@@ -26,6 +27,7 @@ export default function App() {
       <MainStack.Navigator initialRouteName="Registration">
         <MainStack.Screen name="Registration" component={RegistrationScreen} />
         <MainStack.Screen name="Login" component={LoginScreen} />
+        <MainStack.Screen name="Home" component={Home} options={{ title: "Start screen" }}/>
       </MainStack.Navigator>
     </NavigationContainer>
   );

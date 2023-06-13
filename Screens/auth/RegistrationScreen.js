@@ -117,7 +117,7 @@ export const RegistrationScreen = ({}) => {
               activeOpacity="0.5"
               onPress={keyboardHide}
             >
-              <Text style={styles.buttonTitle}>Зареєструватися</Text>
+              <Text style={styles.buttonTitle} onPress={() => navigation.navigate("Home")}>Зареєструватися</Text>
             </TouchableOpacity>
 
             <TouchableOpacity onPress={() => navigation.navigate("Login")}>

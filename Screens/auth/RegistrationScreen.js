@@ -34,7 +34,7 @@ export const RegistrationScreen = ({}) => {
     Keyboard.dismiss();
     console.log(state);
     setState(initialState);
-    navigation.navigate("Home")
+    navigation.navigate("Home", {screen: 'PostsScreen'})
   };
   const pickImageAsync = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({

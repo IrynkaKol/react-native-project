@@ -5,6 +5,6 @@ export const PostsScreen = ({}) => {
         <View>
             <Text>PostsScreen</Text>
         </View>
-    )
+    ) 
 
 }

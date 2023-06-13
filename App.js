@@ -3,17 +3,22 @@ import "react-native-gesture-handler";
 import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
+
 import { useState } from "react";
 import { useFonts } from "expo-font";
 // import { Navbar } from "./Screens/NavBar/Navbar";
 import { RegistrationScreen } from "./Screens/auth/RegistrationScreen";
 import { LoginScreen } from "./Screens/auth/LoginScreen";
 import { Home } from "./Screens/Home/Home";
-import { PostsScreen } from "./Screens/PostsScreen/PostsScreen";
+import { PostsScreen } from "./Screens/mainScreen/PostsScreen";
+import {CreatePostsScreen} from './Screens/mainScreen/CreatePostsScreen';
+import {ProfileScreen} from './Screens/mainScreen/ProfileScreen'
 import { Button, TouchableOpacity } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 
 const MainStack = createStackNavigator();
+const Tab = createBottomTabNavigator();
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -27,7 +32,17 @@ export default function App() {
 
   return (
     <NavigationContainer>
-      <MainStack.Navigator initialRouteName="Registration">
+      <Tab.Navigator>
+        <Tab.Screen name="Posts" component={PostsScreen}/>
+        <Tab.Screen name="Create" component={CreatePostsScreen}/>
+        <Tab.Screen name="Profile" component={ProfileScreen}/>
+      </Tab.Navigator>
+    </NavigationContainer>
+  );
+}
+
+// auth
+{/* <MainStack.Navigator initialRouteName="Registration">
         <MainStack.Screen
           name="Registration"
           component={RegistrationScreen}
@@ -61,7 +76,4 @@ export default function App() {
           }}
         />
         <MainStack.Screen name="PostsScreen" component={PostsScreen} />
-      </MainStack.Navigator>
-    </NavigationContainer>
-  );
-}
+      </MainStack.Navigator> */}

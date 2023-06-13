@@ -8,3 +8,7 @@ export const MapScreen = ({}) => {
         </View>
     )
 }
+
+const styles = StyleSheet.create({
+
+})

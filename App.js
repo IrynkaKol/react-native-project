@@ -8,8 +8,7 @@ import { useState } from "react";
 import { useFonts } from "expo-font";
 // import { Navbar } from "./Screens/NavBar/Navbar";
 
-import { Button, TouchableOpacity } from "react-native";
-import { MaterialIcons } from "@expo/vector-icons";
+
 
 
 

@@ -8,12 +8,11 @@ const Tab = createBottomTabNavigator();
 
 import { RegistrationScreen } from "./Screens/auth/RegistrationScreen";
 import { LoginScreen } from "./Screens/auth/LoginScreen";
-// import { Home } from "./Screens/Home/Home";
+import { Home } from "./Screens/Home/Home";
 import { PostsScreen } from "./Screens/mainScreen/PostsScreen";
 import { CreatePostsScreen } from "./Screens/mainScreen/CreatePostsScreen";
 import { ProfileScreen } from "./Screens/mainScreen/ProfileScreen";
 import { Ionicons, Feather } from "@expo/vector-icons";
-// import { MaterialIcons } from "@expo/vector-icons";
 
 export const useRoute = (isAuth) => {
   const newIcon = require("./assets/icons/new.png");
@@ -30,72 +29,54 @@ export const useRoute = (isAuth) => {
           component={LoginScreen}
           options={{ headerShown: false }}
         />
-        {/* <MainStack.Screen
-      name="Home"
-      component={Home}
-      options={{
-        title: "Публікації",
-        headerStyle: {
-          backgroundColor: "#FFFFFF",
-        },
-        headerTitle: "PostsScreen",
-        headerTintColor: "#212121",
-        headerTitleStyle: {
-          fontFamily: "Roboto-Regular",
-          fontSize: 17,
-          lineHeight: 22,
-        },
-        headerRight: () => (
-          <TouchableOpacity style={{ marginRight: 10, marginBottom: 10 }}>
-            <MaterialIcons name="logout" size={24} color="#BDBDBD" />
-          </TouchableOpacity>
-        ),
-      }}
-    /> */}
+        <MainStack.Screen name="Home" component={Home} options={{}} />
         <MainStack.Screen name="PostsScreen" component={PostsScreen} />
       </MainStack.Navigator>
     );
   }
   return (
-    <Tab.Navigator options={{
-      tabBarItemStyle: {
-        paddingTop: 9
-      }
-    }}>
+    <Tab.Navigator
+      screenOptions={{
+        headerTitleAlign: 'center',
+        headerStyle: {
+          borderBottomWidth: 1,
+          borderColor: '#E5E5E5'
+        }
+        // style: {
+        //   justifyContent: "center",
+          
+        // },
+      }}
+      
+    >
       <Tab.Screen
         name="Posts"
         component={PostsScreen}
         options={{
           tabBarLabel: "",
-          
-        headerStyle: {
-          backgroundColor: "#FFFFFF",
-                    
-        },
-        headerTitle: "Публікації",
-        headerTitleAlign: 'center',
-        // headerTitleContainerStyle: {
-        //   alignSelf: 'center',
-        // },
-        
-        headerTitleStyle: {
-          fontFamily: "Roboto-Regular",
-          fontSize: 17,
-          lineHeight: 22,
-          
-          
-        },
-        
-        headerRight: () => (
-          <TouchableOpacity style={{ marginRight: 10, marginBottom: 10 }}>
-            <Ionicons name="exit-outline" size={24} color="#BDBDBD" />
-            {/* <MaterialIcons name="logout" size={24} color="#BDBDBD" /> */}
-          </TouchableOpacity>
-        ),
+
+          headerStyle: {
+            backgroundColor: "#FFFFFF",
+          },
+          headerTitle: "Публікації",
+          headerTitleAlign: "center",
+
+          headerTitleStyle: {
+            fontFamily: "Roboto-Regular",
+            fontSize: 17,
+            lineHeight: 22,
+          },
+
+          headerRight: () => (
+            <TouchableOpacity style={{ marginRight: 10, marginBottom: 10 }}>
+              <Ionicons name="exit-outline" size={24} color="#BDBDBD" />
+              {/* <MaterialIcons name="logout" size={24} color="#BDBDBD" /> */}
+            </TouchableOpacity>
+          ),
           tabBarIcon: ({ focused, size, color }) => {
             return (
-              <View style={{width:24, height: 24}}>
-              <Ionicons name="ios-grid-outline" size={size} color="#212121" />
+              <View style={{ width: 24, height: 24 }}>
+                <Ionicons name="ios-grid-outline" size={size} color="#212121" />
               </View>
             );
           },
@@ -108,37 +89,36 @@ export const useRoute = (isAuth) => {
           tabBarLabel: "",
           tabBarIcon: ({ focused, size, color }) => {
             return (
-              <View style={{paddingTop: 9}}>
-              <Image source={newIcon} style={{ width: 70, height: 40 }} />
+              <View style={{ paddingTop: 9 }}>
+                <Image source={newIcon} style={{ width: 70, height: 40 }} />
               </View>
-            //   <View  style={{width: 70, height: 40, paddingTop: 9}}>
-            //   <Ionicons 
-            //    name="add-circle-sharp" size={size} color="#FF6C00" />
-            //  </View>
-            )
-            
+            );
           },
         }}
-      /> 
+      />
       <Tab.Screen
         name="Profile"
         component={ProfileScreen}
-        options={{ tabBarLabel: "",
-        tabBarIcon: ({ focused, size, color }) => {
+        options={{
+          tabBarLabel: "",
+          tabBarIcon: ({ focused, size, color }) => {
             return (
-              <View style={{width:24, height: 24}}>
+              <View style={{ width: 24, height: 24 }}>
                 <Feather name="user" size={size} color="#212121" />
-                </View>
+              </View>
             );
           },
-     }}
+        }}
       />
     </Tab.Navigator>
   );
 };
 
 const styles = StyleSheet.create({
-  tabBarIcon: {
-    
-  }
-})
+  tabBarIcon: {},
+});
+
+//   <View  style={{width: 70, height: 40, paddingTop: 9}}>
+//   <Ionicons
+//    name="add-circle-sharp" size={size} color="#FF6C00" />
+//  </View>

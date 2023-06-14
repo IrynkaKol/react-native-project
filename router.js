@@ -1,5 +1,5 @@
 import React from "react";
-import { Image } from "react-native";
+import { Image, TouchableOpacity } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
@@ -13,7 +13,7 @@ import { PostsScreen } from "./Screens/mainScreen/PostsScreen";
 import { CreatePostsScreen } from "./Screens/mainScreen/CreatePostsScreen";
 import { ProfileScreen } from "./Screens/mainScreen/ProfileScreen";
 import { Ionicons, Feather } from "@expo/vector-icons";
-
+import { MaterialIcons } from "@expo/vector-icons";
 
 export const useRoute = (isAuth) => {
   const newIcon = require("./assets/icons/new.png");
@@ -62,7 +62,22 @@ export const useRoute = (isAuth) => {
         name="Posts"
         component={PostsScreen}
         options={{
-          tabBarLabel: "",
+          
+        headerStyle: {
+          backgroundColor: "#FFFFFF",
+        },
+        headerTitle: "Публікації",
+        headerTintColor: "#212121",
+        headerTitleStyle: {
+          fontFamily: "Roboto-Regular",
+          fontSize: 17,
+          lineHeight: 22,
+        },
+        headerRight: () => (
+          <TouchableOpacity style={{ marginRight: 10, marginBottom: 10 }}>
+            <MaterialIcons name="logout" size={24} color="#BDBDBD" />
+          </TouchableOpacity>
+        ),
           tabBarIcon: ({ focused, size, color }) => {
             return (
               <Ionicons name="ios-grid-outline" size={20} color="#212121" />

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -8,6 +8,7 @@ import {
   TextInput,
 } from "react-native";
 import { Camera } from "expo-camera";
+import * as Location from 'expo-location';
 
 export const CreatePostsScreen = ({navigation}) => {
   const cameraIcon = require("../../assets/icons/camera.png");
@@ -16,6 +17,9 @@ export const CreatePostsScreen = ({navigation}) => {
 
   const takePhoto = async () => {
     const photo = await camera.takePictureAsync();
+    const location = await Location.getCurrentPositionAsync()
+    console.log('latitude', location.coords.latitude)
+    console.log('longitude', location.coords.longitude)
     // console.log("camera", photo.uri);
     setPhoto(photo.uri); // зберігаємо посилання на нашу фото
     console.log("photo", photo);
@@ -25,6 +29,19 @@ export const CreatePostsScreen = ({navigation}) => {
     navigation.navigate('Posts', {photo})
     // console.log("navigation", navigation);
   };
+  useEffect(() => {
+    (async () => {
+      
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      console.log('status', status)
+      if (status !== 'granted') {
+        setErrorMsg('Permission to access location was denied');
+        return;
+      }
+
+      
+    })();
+  }, []);
 
   return (
     <View style={styles.container}>

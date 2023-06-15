@@ -11,8 +11,8 @@ export const Home = ({}) => {
      }, [])
 
     return (
-        <View>
-           <PostsScreen/>
+        <View style={{ flex: 1 }}>
+           <PostsScreen />
         </View>
     )
 }

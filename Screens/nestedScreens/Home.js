@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import { View, Text, StyleSheet, FlatList, Image } from "react-native";
+import { View, Text, StyleSheet, FlatList, Image, Button } from "react-native";
 
 // const Tab = createBottomTabNavigator();
 
-export const DefaultScreenPostsScreen = ({ route }) => {
+export const Home = ({ route, navigation }) => {
   const [posts, setPosts] = useState([]);
   
   useEffect(() => {
@@ -12,6 +12,7 @@ export const DefaultScreenPostsScreen = ({ route }) => {
     }
   }, [route.params]);
   console.log("posts", posts);
+  
   return (
     <View style={styles.container}>
       <FlatList
@@ -26,6 +27,11 @@ export const DefaultScreenPostsScreen = ({ route }) => {
           </View>
           
         )}
+      />
+      <Button title="go to map" onPress={() => navigation.navigate("Map")} />
+      <Button
+        title="go to Comments"
+        onPress={() => navigation.navigate("Comments")}
       />
     </View>
   );

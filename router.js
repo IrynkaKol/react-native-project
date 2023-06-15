@@ -8,7 +8,7 @@ const Tab = createBottomTabNavigator();
 
 import { RegistrationScreen } from "./Screens/auth/RegistrationScreen";
 import { LoginScreen } from "./Screens/auth/LoginScreen";
-import { Home } from "./Screens/Home/Home";
+// import { Home } from "./Screens/Home/Home";
 import { PostsScreen } from "./Screens/mainScreen/PostsScreen";
 import { CreatePostsScreen } from "./Screens/mainScreen/CreatePostsScreen";
 import { ProfileScreen } from "./Screens/mainScreen/ProfileScreen";
@@ -29,8 +29,8 @@ export const useRoute = (isAuth) => {
           component={LoginScreen}
           options={{ headerShown: false }}
         />
-        <MainStack.Screen name="Home" component={Home} options={{}} />
-        <MainStack.Screen name="Posts" component={PostsScreen} />
+        {/* <MainStack.Screen name="Home" component={Home} options={{}} />
+        <MainStack.Screen name="Posts" component={PostsScreen} /> */}
       </MainStack.Navigator>
     );
   }

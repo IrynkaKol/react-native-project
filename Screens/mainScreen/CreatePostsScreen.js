@@ -26,7 +26,7 @@ export const CreatePostsScreen = ({navigation}) => {
     
   };
   const sendPhoto = () => {
-    navigation.navigate('Posts', {photo})
+    navigation.navigate('Home', {photo})
     // console.log("navigation", navigation);
   };
   useEffect(() => {

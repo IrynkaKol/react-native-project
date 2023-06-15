@@ -1,38 +1,19 @@
 import { useEffect, useState } from "react";
 import { View, Text, StyleSheet, FlatList, Image } from "react-native";
+import { createStackNavigator } from "@react-navigation/stack"; // для створення скринів 
 
-// const Tab = createBottomTabNavigator();
+import { Home } from "../nestedScreens/Home";
+import { MapScreen } from "../nestedScreens/MapScreen";
+import { CommentsScreen } from "../nestedScreens/CommentsScreen";
 
-export const PostsScreen = ({ route }) => {
-  const [posts, setPosts] = useState([]);
-  // console.log('route.params', route.params)
-  useEffect(() => {
-    if (route.params) {
-      setPosts((prevState) => [...prevState, route.params]);
-    }
-  }, [route.params]);
-  console.log("posts", posts);
+
+const NestedScreens = createStackNavigator();
+export const PostsScreen = () => {
   return (
-    <View style={styles.container}>
-      <FlatList
-        data={posts}
-        keyExtractor={(item, indx) => indx.toString()}
-        renderItem={({item}) => (
-          <View style={{marginBottom: 10, justifyContent: 'center', alignItems: 'center'}}>
-            <Image
-              source={{ uri: item.photo }}
-              style={{ width: 200, height: 200 }}
-            />
-          </View>
-        )}
-      />
-    </View>
-  );
-};
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-  },
-});
+    <NestedScreens.Navigator>
+      <NestedScreens.Screen name="Home" component={Home}/>
+      <NestedScreens.Screen name="Comments" component={CommentsScreen }/>
+      <NestedScreens.Screen name="Map" component={MapScreen}/>
+    </NestedScreens.Navigator>
+  )
+}

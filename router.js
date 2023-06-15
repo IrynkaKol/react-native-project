@@ -37,17 +37,12 @@ export const useRoute = (isAuth) => {
   return (
     <Tab.Navigator
       screenOptions={{
-        headerTitleAlign: 'center',
+        headerTitleAlign: "center",
         headerStyle: {
           borderBottomWidth: 1,
-          borderColor: '#E5E5E5'
-        }
-        // style: {
-        //   justifyContent: "center",
-          
-        // },
+          borderColor: "#E5E5E5",
+        },
       }}
-      
     >
       <Tab.Screen
         name="Posts"
@@ -118,7 +113,3 @@ const styles = StyleSheet.create({
   tabBarIcon: {},
 });
 
-//   <View  style={{width: 70, height: 40, paddingTop: 9}}>
-//   <Ionicons
-//    name="add-circle-sharp" size={size} color="#FF6C00" />
-//  </View>

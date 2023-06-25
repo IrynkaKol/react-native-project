@@ -8,7 +8,7 @@ const Tab = createBottomTabNavigator();
 
 import { RegistrationScreen } from "./Screens/auth/RegistrationScreen";
 import { LoginScreen } from "./Screens/auth/LoginScreen";
-// import { Home } from "./Screens/Home/Home";
+ import { Home } from "./Screens/nestedScreens/Home";
 import { PostsScreen } from "./Screens/mainScreen/PostsScreen";
 import { CreatePostsScreen } from "./Screens/mainScreen/CreatePostsScreen";
 import { ProfileScreen } from "./Screens/mainScreen/ProfileScreen";
@@ -29,8 +29,37 @@ export const useRoute = (isAuth) => {
           component={LoginScreen}
           options={{ headerShown: false }}
         />
-        {/* <MainStack.Screen name="Home" component={Home} options={{}} />
-        <MainStack.Screen name="Posts" component={PostsScreen} /> */}
+        <MainStack.Screen name="Home" component={Home} 
+         options={{
+          tabBarLabel: "",
+
+          headerStyle: {
+            backgroundColor: "#FFFFFF",
+          },
+          headerTitle: "Публікації",
+          headerTitleAlign: "center",
+
+          headerTitleStyle: {
+            fontFamily: "Roboto-Regular",
+            fontSize: 17,
+            lineHeight: 22,
+          },
+
+          headerRight: () => (
+            <TouchableOpacity style={{ marginRight: 10, marginBottom: 10 }}>
+              <Ionicons name="exit-outline" size={24} color="#BDBDBD" />
+              {/* <MaterialIcons name="logout" size={24} color="#BDBDBD" /> */}
+            </TouchableOpacity>
+          ),
+          tabBarIcon: ({ focused, size, color }) => {
+            return (
+              <View style={{ width: 24, height: 24 }}>
+                <Ionicons name="ios-grid-outline" size={size} color="#212121" />
+              </View>
+            );
+          },
+        }} />
+        
       </MainStack.Navigator>
     );
   }

@@ -8,40 +8,39 @@ import {
   TextInput,
 } from "react-native";
 import { Camera } from "expo-camera";
-import * as Location from 'expo-location';
+import * as Location from "expo-location";
 
-export const CreatePostsScreen = ({navigation}) => {
-  const cameraIcon = require("../../assets/icons/camera.png");
+import { EvilIcons, MaterialIcons } from "@expo/vector-icons";
+
+export const CreatePostsScreen = ({ navigation }) => {
   const [camera, setCamera] = useState(null);
   const [photo, setPhoto] = useState(null);
 
   const takePhoto = async () => {
     const photo = await camera.takePictureAsync();
-    const location = await Location.getCurrentPositionAsync()
-    console.log('latitude', location.coords.latitude)
-    console.log('longitude', location.coords.longitude)
-    // console.log("camera", photo.uri);
+    // const location = await Location.getCurrentPositionAsync()
+    // console.log('latitude', location.coords.latitude)
+    // console.log('longitude', location.coords.longitude)
+    console.log("camera", photo.uri);
     setPhoto(photo.uri); // зберігаємо посилання на нашу фото
     console.log("photo", photo);
-    
   };
   const sendPhoto = () => {
-    navigation.navigate('Home', {photo})
+    navigation.navigate("Home", { photo });
     // console.log("navigation", navigation);
   };
-  useEffect(() => {
-    (async () => {
-      
-      let { status } = await Location.requestForegroundPermissionsAsync();
-      console.log('status', status)
-      if (status !== 'granted') {
-        setErrorMsg('Permission to access location was denied');
-        return;
-      }
+  // useEffect(() => {
+  //   (async () => {
 
-      
-    })();
-  }, []);
+  //     let { status } = await Location.requestForegroundPermissionsAsync();
+  //     console.log('status', status)
+  //     if (status !== 'granted') {
+  //       setErrorMsg('Permission to access location was denied');
+  //       return;
+  //     }
+
+  //   })();
+  // }, []);
 
   return (
     <View style={styles.container}>
@@ -52,8 +51,6 @@ export const CreatePostsScreen = ({navigation}) => {
               <Image
                 source={{ uri: photo }}
                 style={{
-                  height: 200,
-                  width: 200,
                   borderColor: "#fff",
                   borderWidth: 1,
                   borderRadius: 8,
@@ -62,7 +59,21 @@ export const CreatePostsScreen = ({navigation}) => {
             </View>
           )}
           <TouchableOpacity onPress={takePhoto}>
-            <Image source={cameraIcon} style={{ width: 60, height: 60 }} />
+            <View
+              style={{
+                borderWidth: 1,
+                borderColor: "#ffffff",
+                borderRadius: 50,
+                backgroundColor: "#fff",
+                height: 60,
+                width: 60,
+                position: "relative",
+              }}
+            >
+              <View style={{ position: "absolute", top: 18, right: 18 }}>
+                <MaterialIcons name="photo-camera" size={24} color="#BDBDBD" />
+              </View>
+            </View>
           </TouchableOpacity>
         </Camera>
 
@@ -79,7 +90,10 @@ export const CreatePostsScreen = ({navigation}) => {
       </View>
       <View style={{ gap: 16 }}>
         <TextInput style={styles.input} placeholder="Назва..." />
+        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+        <EvilIcons name="location" size={24} color="black" />
         <TextInput style={styles.input} placeholder="Місцевість..." />
+        </View>
       </View>
       <TouchableOpacity onPress={sendPhoto} style={styles.publishedButton}>
         <Text style={styles.publishedTitleButton}>Опубліковати</Text>

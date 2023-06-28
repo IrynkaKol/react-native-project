@@ -11,7 +11,8 @@ const NestedScreens = createStackNavigator();
 export const PostsScreen = () => {
   return (
     <NestedScreens.Navigator>
-      <NestedScreens.Screen name="Home" component={Home}/>
+      <NestedScreens.Screen name="Home" component={Home}  options={{headerShown: false
+          }}/>
       <NestedScreens.Screen name="Comments" component={CommentsScreen }/>
       <NestedScreens.Screen name="Map" component={MapScreen}/>
     </NestedScreens.Navigator>

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { View, Text, StyleSheet, FlatList, Image, Button } from "react-native";
+import { View, Text, StyleSheet, FlatList, Image, Button, TouchableOpacity } from "react-native";
+import { EvilIcons } from '@expo/vector-icons'; 
 
 // const Tab = createBottomTabNavigator();
 
@@ -24,15 +25,19 @@ export const Home = ({ route, navigation }) => {
               source={{ uri: item.photo }}
               style={{ width: 200, height: 200 }}
             />
+            
+      <TouchableOpacity onPress={() => navigation.navigate("Comments")}>
+        
+        <EvilIcons name="comment" size={24} color="#BDBDBD" />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate("Map")}> 
+        <EvilIcons name="location" size={24} color="#BDBDBD" />
+        </TouchableOpacity>
           </View>
           
         )}
       />
-      <Button title="go to map" onPress={() => navigation.navigate("Map")} />
-      <Button
-        title="go to Comments"
-        onPress={() => navigation.navigate("Comments")}
-      />
+      
     </View>
   );
 };

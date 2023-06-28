@@ -8,14 +8,13 @@ const Tab = createBottomTabNavigator();
 
 import { RegistrationScreen } from "./Screens/auth/RegistrationScreen";
 import { LoginScreen } from "./Screens/auth/LoginScreen";
- import { Home } from "./Screens/nestedScreens/Home";
+import { Home } from "./Screens/nestedScreens/Home";
 import { PostsScreen } from "./Screens/mainScreen/PostsScreen";
 import { CreatePostsScreen } from "./Screens/mainScreen/CreatePostsScreen";
 import { ProfileScreen } from "./Screens/mainScreen/ProfileScreen";
-import { Ionicons, Feather } from "@expo/vector-icons";
+import { Ionicons, AntDesign, Feather } from "@expo/vector-icons";
 
 export const useRoute = (isAuth) => {
-  const newIcon = require("./assets/icons/new.png");
   if (!isAuth) {
     return (
       <MainStack.Navigator initialRouteName="Registration">
@@ -29,37 +28,6 @@ export const useRoute = (isAuth) => {
           component={LoginScreen}
           options={{ headerShown: false }}
         />
-        <MainStack.Screen name="Home" component={Home} 
-         options={{
-          tabBarLabel: "",
-
-          headerStyle: {
-            backgroundColor: "#FFFFFF",
-          },
-          headerTitle: "Публікації",
-          headerTitleAlign: "center",
-
-          headerTitleStyle: {
-            fontFamily: "Roboto-Regular",
-            fontSize: 17,
-            lineHeight: 22,
-          },
-
-          headerRight: () => (
-            <TouchableOpacity style={{ marginRight: 10, marginBottom: 10 }}>
-              <Ionicons name="exit-outline" size={24} color="#BDBDBD" />
-              {/* <MaterialIcons name="logout" size={24} color="#BDBDBD" /> */}
-            </TouchableOpacity>
-          ),
-          tabBarIcon: ({ focused, size, color }) => {
-            return (
-              <View style={{ width: 24, height: 24 }}>
-                <Ionicons name="ios-grid-outline" size={size} color="#212121" />
-              </View>
-            );
-          },
-        }} />
-        
       </MainStack.Navigator>
     );
   }
@@ -100,7 +68,7 @@ export const useRoute = (isAuth) => {
           tabBarIcon: ({ focused, size, color }) => {
             return (
               <View style={{ width: 24, height: 24 }}>
-                <Ionicons name="ios-grid-outline" size={size} color="#212121" />
+                <Ionicons name="ios-grid-outline" size={size} color={color} />
               </View>
             );
           },
@@ -113,8 +81,19 @@ export const useRoute = (isAuth) => {
           tabBarLabel: "",
           tabBarIcon: ({ focused, size, color }) => {
             return (
-              <View style={{ paddingTop: 9 }}>
-                <Image source={newIcon} style={{ width: 70, height: 40 }} />
+              <View
+                style={{
+                  borderRadius: 50,
+                  backgroundColor: "#FF6C00",
+                  width: 70,
+                  height: 40,
+                  position: "relative",
+                  marginTop: 9
+                }}
+              >
+                <View style={{ position: "absolute", top: 14, right: 29 }}>
+                  <AntDesign name="plus" size={13} color={color} />
+                </View>
               </View>
             );
           },
@@ -128,7 +107,7 @@ export const useRoute = (isAuth) => {
           tabBarIcon: ({ focused, size, color }) => {
             return (
               <View style={{ width: 24, height: 24 }}>
-                <Feather name="user" size={size} color="#212121" />
+                <Feather name="user" size={size} color={color} />
               </View>
             );
           },
@@ -141,4 +120,3 @@ export const useRoute = (isAuth) => {
 const styles = StyleSheet.create({
   tabBarIcon: {},
 });
-

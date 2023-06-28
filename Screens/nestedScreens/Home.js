@@ -33,7 +33,8 @@ export const Home = ({ route, navigation }) => {
               marginBottom: 10,
               marginTop: 15,
               justifyContent: "center",
-              alignItems: "center",
+              marginHorizontal: 16
+              // alignItems: "center",
             }}
           >
             <Image
@@ -46,13 +47,15 @@ export const Home = ({ route, navigation }) => {
                 borderRadius: 8,
               }}
             />
-            <View style={{ marginTop: 15, flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start' }}>
-              <TouchableOpacity onPress={() => navigation.navigate("Comments")} style={{ marginRight: 40 }}>
+            <View style={{ marginTop: 15, flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start', gap: 50 }}>
+              <TouchableOpacity onPress={() => navigation.navigate("Comments")} style={{}}>
                 <EvilIcons name="comment" size={24} color="#BDBDBD" />
               </TouchableOpacity>
+              
               <TouchableOpacity onPress={() => navigation.navigate("Map")} >
                 <EvilIcons name="location" size={24} color="#BDBDBD" />
               </TouchableOpacity>
+              
             </View>
           </View>
         )}

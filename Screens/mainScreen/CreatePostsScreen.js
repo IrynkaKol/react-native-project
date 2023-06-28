@@ -18,9 +18,10 @@ export const CreatePostsScreen = ({ navigation }) => {
 
   const takePhoto = async () => {
     const photo = await camera.takePictureAsync();
-    // const location = await Location.getCurrentPositionAsync()
-    // console.log('latitude', location.coords.latitude)
-    // console.log('longitude', location.coords.longitude)
+    const location = await Location.getCurrentPositionAsync()
+    // console.log('location', location)
+    console.log('latitude', location.coords.latitude)
+    console.log('longitude', location.coords.longitude)
     console.log("camera", photo.uri);
     setPhoto(photo.uri); // зберігаємо посилання на нашу фото
     console.log("photo", photo);

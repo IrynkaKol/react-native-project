@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useDispatch } from "react-redux/";
 import { useNavigation } from "@react-navigation/native";
 import {
   View,
@@ -14,6 +15,8 @@ import {
 } from "react-native";
 import backgroundImage from "../../assets/images/background.png";
 
+import { loginDB } from "../../redux/auth/authOperations";
+
 const initialState = {
   email: "",
   password: "",
@@ -23,14 +26,21 @@ export const LoginScreen = ({}) => {
   const [state, setState] = useState(initialState);
 
   const navigation = useNavigation();
+  const dispatch = useDispatch()
+
+
+  const handleSubmit = () => {
+    setIsShowKeybord(false);
+    Keyboard.dismiss();
+    dispatch(loginDB(state))
+    setState(initialState);
+  };
 
   const keyboardHide = () => {
     setIsShowKeybord(false);
-    //navigation.navigate("Home")
     Keyboard.dismiss();
-    console.log(state);
-    setState(initialState);
   };
+
   return (
     <TouchableWithoutFeedback onPress={keyboardHide}>
       <ImageBackground
@@ -78,7 +88,7 @@ export const LoginScreen = ({}) => {
             <TouchableOpacity
               style={styles.button}
               activeOpacity="0.5"
-              onPress={keyboardHide}
+              onPress={handleSubmit}
             >
               <Text style={styles.buttonTitle}>Увійти</Text>
             </TouchableOpacity>
@@ -86,9 +96,10 @@ export const LoginScreen = ({}) => {
               onPress={() => navigation.navigate("Registration")}
             >
               <Text style={styles.textRegistration}>
-                Немає акаунту? {' '}
-                <Text style={{textDecorationLine: 'underline'}}>
-                Зареєструватися</Text>
+                Немає акаунту?{" "}
+                <Text style={{ textDecorationLine: "underline" }}>
+                  Зареєструватися
+                </Text>
               </Text>
             </TouchableOpacity>
           </View>

@@ -10,12 +10,17 @@ import {store} from './redux/store'
 
 import { useState } from "react";
 import { useFonts } from "expo-font";
+// import { db } from "./firebase/config";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 
 
 export default function App() {
-  const [iasReady, setIasReady] = useState(false);
-  const routing = useRoute(false); // true null
+  const [user, setUser] = useState(null)
+  const routing = useRoute(user); // true falsw null
+  const auth = getAuth();
+  onAuthStateChanged(auth, (user) => setUser(user))
+
   const [fontsLoaded] = useFonts({
     "Roboto-Regular": require("./assets/fonts/Roboto-Regular.ttf"),
     "Roboto-Medium": require("./assets/fonts/Roboto-Medium.ttf"),
@@ -24,6 +29,7 @@ export default function App() {
   if (!fontsLoaded) {
     return null;
   }
+  
   
   return <Provider store={store}>
   <NavigationContainer>{routing}</NavigationContainer>

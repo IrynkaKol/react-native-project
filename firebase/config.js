@@ -1,4 +1,4 @@
-import * as firebase from "firebasej";
+// import * as firebase from "firebasej";
 // Для роботи із firebase обовʼязково треба ініціалізувати проект
 import { initializeApp } from "firebase/app";
 // Функція для підключення авторизації в проект

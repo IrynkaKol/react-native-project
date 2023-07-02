@@ -12,9 +12,12 @@ import {
   KeyboardAvoidingView,
   TouchableWithoutFeedback,
 } from "react-native";
+import { useDispatch } from "react-redux";
 import backgroundImage from "../../assets/images/background.png";
 import * as ImagePicker from "expo-image-picker";
 import {ImageViewer} from "../../components/ImageViewer"
+
+import { registerDB } from "../../redux/auth/authOperations";
 
 const initialState = {
   login: "",
@@ -27,13 +30,15 @@ export const RegistrationScreen = ({}) => {
   const [isShowKeybord, setIsShowKeybord] = useState(false);
   const [state, setState] = useState(initialState);
   const [selectedImage, setSelectedImage] = useState(null);
+  const dispatch = useDispatch()
 
   const navigation = useNavigation();
 
-  const keyboardHide = () => {
+  const handleSubmit = () => {
     setIsShowKeybord(false);
     Keyboard.dismiss();
     console.log(state);
+    dispatch(registerDB(state))
     setState(initialState);
      // navigation.navigate("Home")
   };
@@ -54,7 +59,7 @@ export const RegistrationScreen = ({}) => {
   };
 
   return (
-    <TouchableWithoutFeedback onPress={keyboardHide}>
+    <TouchableWithoutFeedback onPress={handleSubmit}>
       <ImageBackground
         source={backgroundImage}
         resizeMode="cover"
@@ -117,7 +122,7 @@ export const RegistrationScreen = ({}) => {
             <TouchableOpacity
               style={styles.button}
               activeOpacity={0.5}
-              onPress={keyboardHide}
+              onPress={handleSubmit}
             >
               <Text style={styles.buttonTitle} >Зареєструватися</Text>
             </TouchableOpacity>

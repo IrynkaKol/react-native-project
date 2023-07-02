@@ -11,11 +11,11 @@ import {store} from './redux/store'
 import { useState } from "react";
 import { useFonts } from "expo-font";
 
-// import { Navbar } from "./Screens/NavBar/Navbar";
+
 
 export default function App() {
   const [iasReady, setIasReady] = useState(false);
-  const routing = useRoute(true); // true null
+  const routing = useRoute(false); // true null
   const [fontsLoaded] = useFonts({
     "Roboto-Regular": require("./assets/fonts/Roboto-Regular.ttf"),
     "Roboto-Medium": require("./assets/fonts/Roboto-Medium.ttf"),

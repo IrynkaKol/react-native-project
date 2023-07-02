@@ -6,9 +6,7 @@ import {
 } from 'firebase/auth';
 import { auth } from '../../firebase/config';
 
-// const authSingInUser = () => async (dispatch, getSatte) => {} // login
-// const authSingUpUser = () => async (dispatch, getSatte) => {} // register
-// const authSingOutUser = () => async (dispatch, getSatte) => {} // logout
+
 
 export const registerDB =  ({  email, password }) => async (dispatch, setStatte) => {
     try {

@@ -2,9 +2,7 @@
 
 ###
 
-<div align=center>
 ![MyCollages](https://github.com/IrynkaKol/react-native-project/blob/main/assets/colage.png)
-</div>
 
 ###
 

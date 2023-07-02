@@ -5,7 +5,6 @@
 <div align=center>
   <img src="https://github.com/IrynkaKol/react-native-project/blob/main/assets/colage.png" alt="MyCollages" />
 </div>
-###
 
 ## <div align=center>Завдання 1: Підготовка до роботи</div>
 

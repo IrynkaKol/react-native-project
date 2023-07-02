@@ -33,8 +33,8 @@
 
 ###
 
-- [Макет компонента RegistrationScreen]()
-- [Макет компонента LoginScreen]()
+- [Макет компонента RegistrationScreen](<https://www.figma.com/file/YqWLNarVE4x1zkXa6PYJfi/Homework-(Copy)-(Copy)?type=design&node-id=3-26>)
+- [Макет компонента LoginScreen](<https://www.figma.com/file/YqWLNarVE4x1zkXa6PYJfi/Homework-(Copy)-(Copy)?node-id=12-0&t=tkIKc4K19uOKNunb-0>)
 
 #
 
@@ -69,11 +69,11 @@
 
 ###
 
-- [Макет компонента PostsScreen без контенту]()
-- [Макет компонента PostsScreen з постами]()
-- [Макет компонента CreatePostsScreen при переході на компонент]()
-- [Макет компонента ProfileScreen]()
-- [Інтерактивний приклад навігації в застосунку]()
+- [Макет компонента PostsScreen без контенту](<https://www.figma.com/file/YqWLNarVE4x1zkXa6PYJfi/Homework-(Copy)-(Copy)?node-id=12-47>)
+- [Макет компонента PostsScreen з постами](<https://www.figma.com/file/YqWLNarVE4x1zkXa6PYJfi/Homework-(Copy)-(Copy)?node-id=36-86&t=zLy5KtBgsPgUDWY3-0>)
+- [Макет компонента CreatePostsScreen при переході на компонент](<https://www.figma.com/file/YqWLNarVE4x1zkXa6PYJfi/Homework-(Copy)-(Copy)?node-id=36-13&t=4MUcNtbjSdtiKXV7-0>)
+- [Макет компонента ProfileScreen](<https://www.figma.com/file/YqWLNarVE4x1zkXa6PYJfi/Homework-(Copy)-(Copy)?node-id=36-13&t=kFkFeqKaLVknGboO-0>)
+- [Інтерактивний приклад навігації в застосунку](<https://www.figma.com/file/YqWLNarVE4x1zkXa6PYJfi/Homework-(Copy)-(Copy)?node-id=36-86&t=YKQMU635gnlpvN39-0>)
 
 #
 
@@ -91,10 +91,10 @@
 
 ###
 
-- [Макет компонента CommentsScreen з коментарями]()
-- [Макет компонента CreatePostsScreen під час відкриття екрану]()
-- [Макет компонента CreatePostsScreen після зробленого фото]()
-- [Макет компонента MapScreen]()
+- [Макет компонента CommentsScreen з коментарями](<https://www.figma.com/file/YqWLNarVE4x1zkXa6PYJfi/Homework-(Copy)-(Copy)?node-id=41-0&t=vDyJjIvhOk6v4uZ7-0>)
+- [Макет компонента CreatePostsScreen під час відкриття екрану](<https://www.figma.com/file/YqWLNarVE4x1zkXa6PYJfi/Homework-(Copy)-(Copy)?node-id=36-86&t=hdpZPYSLTyS7klkX-0>)
+- [Макет компонента CreatePostsScreen після зробленого фото](<https://www.figma.com/file/YqWLNarVE4x1zkXa6PYJfi/Homework-(Copy)-(Copy)?node-id=36-13&t=5kWIH0XRsJwnJfHy-0>)
+- [Макет компонента MapScreen](<https://www.figma.com/file/YqWLNarVE4x1zkXa6PYJfi/Homework-(Copy)-(Copy)?node-id=43-54&t=58UisgPOnMIySl1m-0>)
 
 #
 

@@ -17,7 +17,7 @@ import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 export default function App() {
   const [user, setUser] = useState(null)
-  const routing = useRoute(user); // true falsw null
+  const routing = useRoute(user); // true false null
   const auth = getAuth();
   onAuthStateChanged(auth, (user) => setUser(user))
 

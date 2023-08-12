@@ -10,6 +10,7 @@ import {
     REGISTER,
   } from 'redux-persist';
 import { authSlice } from './auth/authReducer'
+import { composeWithDevTools } from 'redux-devtools-extension';
 
 const rootReducer = combineReducers({
 [authSlice.name]: authSlice.reducer, // name 'auth' із authSlice
@@ -22,6 +23,8 @@ export const store = configureStore({
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
     }),
+    devTools: composeWithDevTools(),
 })
 
-// так як в нас буде 2 стани, нам буде потрібен combineReducers, який збере будь-яку кылькысть станыв в один об'єкт
+
+// так як в нас буде 2 стани, нам буде потрібен combineReducers, який збере будь-яку кіькість станів в один об'єкт

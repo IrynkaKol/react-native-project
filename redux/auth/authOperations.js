@@ -9,7 +9,7 @@ import { authSlice } from "./authReducer";
 
 export const registerDB =
   ({ email, password, login }) =>
-  async (dispatch, setState) => {
+  async (dispatch, getState) => {
     try {
       const { user } = await createUserWithEmailAndPassword(
         auth,
@@ -32,7 +32,7 @@ export const registerDB =
 
 export const loginDB =
   ({ email, password }) =>
-  async (dispatch, setState) => {
+  async (dispatch, getState) => {
     try {
       const user = await signInWithEmailAndPassword(auth, email, password);
       console.log("user", user);
@@ -40,3 +40,7 @@ export const loginDB =
       throw error;
     }
   };
+
+  export const logoutDB = () => async (dispatch, setState) => {
+
+  }

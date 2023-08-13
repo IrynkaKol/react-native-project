@@ -5,7 +5,7 @@ export const authSlice = createSlice({
   initialState: {
     userId: null,
     login: null,
-    stateChange: null,
+    stateChange: null, // перевіряє чи є ви власником
   },
   reducers: {
     updateUserProfile: (state, { payload }) => ({
@@ -15,7 +15,7 @@ export const authSlice = createSlice({
     }),
     authStateChange: (state, { payload }) => ({
       ...state,
-      stateChange: payload.state.Change,
+      stateChange: payload.stateChange,
     }),
   },
 });

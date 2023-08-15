@@ -8,7 +8,7 @@ import { auth } from "../../firebase/config";
 import { authSlice } from "./authReducer";
 
 export const registerDB =
-  ({ email, password, login }) =>
+  ({ login, email, password }) =>
   async (dispatch, getState) => {
     try {
       await createUserWithEmailAndPassword(auth, email, password);
@@ -18,14 +18,17 @@ export const registerDB =
 
       await updateProfile(user, { displayName: login });
 
-      const { displayName, uid } = await auth.currentUser;
+      // const { displayName, uid } = await auth.currentUser;
 
-      const userUpdateProfile = {
-        login: displayName,
-        userId: uid,
-      };
+      // const userUpdateProfile = {
+      //   login: displayName,
+      //   userId: uid,
+      // };
 
-      dispatch(authSlice.actions.updateUserProfile(userUpdateProfile));
+      await dispatch(
+        updateUserProfile({
+          userId: user.uid, 
+          login: user.displayName}));
       // const { user } = await createUserWithEmailAndPassword(
       //   auth,
       //   email,

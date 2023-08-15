@@ -19,27 +19,24 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "jsEngine": "hermes",
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "jsEngine": "jsc"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff",
         "softwareKeyboardLayoutMode": "pan"
-      }
+      },
+      "jsEngine": "jsc"
     },
     "web": {
       "favicon": "./assets/favicon.png"
     }
-  },
-  "jsEngine": "hermes",
-  "ios": {
-    "jsEngine": "jsc",
-    "supportsTablet": true
-  },
-  "android": {
-    "jsEngine": "jsc"
   }
 }

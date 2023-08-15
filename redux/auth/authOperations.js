@@ -16,7 +16,7 @@ export const registerDB =
       const user = await auth.currentUser;
       console.log("user: ", user);
 
-      await user.updateProfile({ displayName: login });
+      await updateProfile(user, { displayName: login });
 
       const { displayName, uid } = await auth.currentUser;
 

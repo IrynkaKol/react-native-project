@@ -14,7 +14,7 @@ export const registerDB =
       await createUserWithEmailAndPassword(auth, email, password);
 
       const user = await auth.currentUser;
-      console.log("user: ", user);
+      // console.log("user: ", user);
 
       await updateProfile(user, { displayName: login });
 
@@ -27,8 +27,10 @@ export const registerDB =
 
       await dispatch(
         updateUserProfile({
-          userId: user.uid, 
-          login: user.displayName}));
+          userId: user.uid,
+          login: user.displayName,
+        })
+      );
       // const { user } = await createUserWithEmailAndPassword(
       //   auth,
       //   email,
@@ -59,7 +61,18 @@ export const loginDB =
     }
   };
 
-export const logoutDB = () => async (dispatch, setState) => {};
+export const logoutDB = () => async (dispatch, getState) => {};
 
-export const authStateChanged = () => async (dispatch, setState) => {};
-export const updateUserProfile = () => async (dispatch, setState) => {};
+export const authStateChangedUser = () => async (dispatch, getState) => {
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      dispatch(
+        updateUserProfile({
+          userId: user.uid,
+          login: user.displayName,
+        })
+      );
+    }
+  })
+};
+export const updateUserProfile = () => async (dispatch, getState) => {};

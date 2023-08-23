@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { View, Text, StyleSheet, FlatList, Image } from "react-native";
+// import { useEffect, useState } from "react";
+// import { View, Text, StyleSheet, FlatList, Image } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack"; // для створення скринів 
 
 import { Home } from "../nestedScreens/Home";

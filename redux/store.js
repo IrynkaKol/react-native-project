@@ -9,8 +9,13 @@ import {
     PURGE,
     REGISTER,
   } from 'redux-persist';
+  // import AsyncStorage from '@react-native-async-storage/async-storage';
 import { authSlice } from './auth/authReducer'
-import { composeWithDevTools } from 'redux-devtools-extension';
+// import { composeWithDevTools } from 'redux-devtools-extension';
+// const persistConfig = {
+//   key: 'root',
+//   storage: AsyncStorage,
+// };
 
 const rootReducer = combineReducers({
 [authSlice.name]: authSlice.reducer, // name 'auth' із authSlice
@@ -22,8 +27,8 @@ export const store = configureStore({
       serializableCheck: {
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
-    }),
-    devTools: composeWithDevTools(),
+    })
+   
 })
 
 

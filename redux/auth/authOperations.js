@@ -34,13 +34,7 @@ export const registerDB =
           login: user.displayName,
         })
       );
-      // const { user } = await createUserWithEmailAndPassword(
-      //   auth,
-      //   email,
-      //   password
-      // );
-      // dispatch(authSlice.actions.updateUserProfile({ userId: user.uid }));
-      // console.log("user", user);
+      
     } catch (error) {
       console.log("error", error);
       console.log("error.message", error.message);

@@ -15,14 +15,16 @@ import { EvilIcons, MaterialIcons } from "@expo/vector-icons";
 export const CreatePostsScreen = ({ navigation }) => {
   const [camera, setCamera] = useState(null);
   const [photo, setPhoto] = useState(null);
+  const [isCameraReady, setIsCameraReady] = useState(false);
 
   const takePhoto = async () => {
+    if (!isCameraReady) {
+      console.warn('Camera is not ready')
+      return;
+    }
     const photo = await camera.takePictureAsync();
     const location = await Location.getCurrentPositionAsync()
-    // console.log('location', location)
-    console.log('latitude', location.coords.latitude)
-    console.log('longitude', location.coords.longitude)
-    console.log("camera", photo.uri);
+    
     setPhoto(photo.uri); // зберігаємо посилання на нашу фото
     console.log("photo", photo);
   };
@@ -46,7 +48,7 @@ export const CreatePostsScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <View style={{ marginBottom: 32 }}>
-        <Camera style={styles.camera} ref={setCamera}>
+        <Camera style={styles.camera} ref={(ref) => setCamera(ref)} onCameraReady={() => setIsCameraReady(true)}>
           {photo && (
             <View style={styles.takePhotoContainer}>
               <Image

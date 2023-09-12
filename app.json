@@ -12,6 +12,12 @@
         {
           "locationAlwaysAndWhenInUsePermission": "Allow awesomeproject to use your location."
         }
+      ], 
+      [
+        "expo-camera",
+        {
+          "permissions": ["camera", "mediaLibrary"]
+        }
       ]
     ],
     "splash": {

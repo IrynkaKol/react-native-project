@@ -12,7 +12,7 @@ import { Home } from "./Screens/nestedScreens/Home";
 import { PostsScreen } from "./Screens/mainScreen/PostsScreen";
 import { CreatePostsScreen } from "./Screens/mainScreen/CreatePostsScreen";
 import { ProfileScreen } from "./Screens/mainScreen/ProfileScreen";
-import { Ionicons, AntDesign, Feather } from "@expo/vector-icons";
+import { Ionicons , AntDesign, Feather } from "@expo/vector-icons";
 
 export const useRoute = (isAuth) => {
   if (!isAuth) {
@@ -62,7 +62,7 @@ export const useRoute = (isAuth) => {
           headerRight: () => (
             <TouchableOpacity style={{ marginRight: 10, marginBottom: 10 }}>
               <Ionicons name="exit-outline" size={24} color="#BDBDBD" />
-              {/* <MaterialIcons name="logout" size={24} color="#BDBDBD" /> */}
+              
             </TouchableOpacity>
           ),
           tabBarIcon: ({ focused, size, color }) => {

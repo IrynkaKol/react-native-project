@@ -1,7 +1,7 @@
 // Для роботи із firebase обовʼязково треба ініціалізувати проект
 import { initializeApp } from "firebase/app";
 // Функція для підключення авторизації в проект
-// import { getAuth } from "firebase/auth";
+ import { getAuth } from "firebase/auth";
 import {initializeAuth, getReactNativePersistence} from 'firebase/auth' 
 import ReactNativeAsyncStorage from '@react-native-async-storage/async-storage';
 // Функція для підключення бази даних у проект

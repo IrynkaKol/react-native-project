@@ -9,6 +9,7 @@ import { CommentsScreen } from "../nestedScreens/CommentsScreen";
 
 const NestedScreens = createStackNavigator();
 export const PostsScreen = () => {
+  
   return (
     <NestedScreens.Navigator>
       <NestedScreens.Screen name="Home" component={Home}  options={{headerShown: false

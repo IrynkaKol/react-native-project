@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { getStorage, ref } from "firebase/storage";
 import {
   View,
   Text,
@@ -8,29 +9,55 @@ import {
   TextInput,
 } from "react-native";
 import { Camera } from "expo-camera";
+import * as MediaLibrary from "expo-media-library";
 import * as Location from "expo-location";
 
 import { EvilIcons, MaterialIcons } from "@expo/vector-icons";
 
+const storage = getStorage();
+
 export const CreatePostsScreen = ({ navigation }) => {
+  const [hasPermission, setHasPermission] = useState(null);
   const [camera, setCamera] = useState(null);
   const [photo, setPhoto] = useState(null);
-  const [isCameraReady, setIsCameraReady] = useState(false);
+
+  useEffect(() => {
+    (async () => {
+      const { status } = await Camera.requestCameraPermissionsAsync();
+      await MediaLibrary.requestPermissionsAsync();
+      await Location.requestForegroundPermissionsAsync();
+
+      setHasPermission(status === "granted");
+    })();
+  }, []);
+
+  if (hasPermission === null) {
+    return <View />;
+  }
+  if (hasPermission === false) {
+    return <Text>No access to camera</Text>;
+  }
 
   const takePhoto = async () => {
-    if (!isCameraReady) {
-      console.warn('Camera is not ready')
-      return;
-    }
     const photo = await camera.takePictureAsync();
-    const location = await Location.getCurrentPositionAsync()
-    
+    const location = await Location.getCurrentPositionAsync();
+
     setPhoto(photo.uri); // зберігаємо посилання на нашу фото
     console.log("photo", photo);
   };
   const sendPhoto = () => {
+    uploadPhotoToServer();
     navigation.navigate("Home", { photo });
     // console.log("navigation", navigation);
+  };
+
+  const uploadPhotoToServer = async () => {
+    const response = await fetch(photo);
+    const file = await response.blob();
+    const uniquePostId = Date.now().toString();
+
+    const data = await ref(storage, `postsImages/${uniquePostId}`).put(file);
+    console.log("data", data);
   };
   // useEffect(() => {
   //   (async () => {
@@ -48,7 +75,7 @@ export const CreatePostsScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <View style={{ marginBottom: 32 }}>
-        <Camera style={styles.camera} ref={(ref) => setCamera(ref)} onCameraReady={() => setIsCameraReady(true)}>
+        <Camera style={styles.camera} ref={(ref) => setCamera(ref)}>
           {photo && (
             <View style={styles.takePhotoContainer}>
               <Image
@@ -93,9 +120,9 @@ export const CreatePostsScreen = ({ navigation }) => {
       </View>
       <View style={{ gap: 16 }}>
         <TextInput style={styles.input} placeholder="Назва..." />
-        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-        <EvilIcons name="location" size={24} color="black" />
-        <TextInput style={styles.input} placeholder="Місцевість..." />
+        <View style={{ flexDirection: "row", alignItems: "center" }}>
+          <EvilIcons name="location" size={24} color="black" />
+          <TextInput style={styles.input} placeholder="Місцевість..." />
         </View>
       </View>
       <TouchableOpacity onPress={sendPhoto} style={styles.publishedButton}>

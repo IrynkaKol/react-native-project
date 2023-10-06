@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { getStorage, ref } from "firebase/storage";
+import { getStorage, ref, uploadBytesResumable, getDownloadURL  } from "firebase/storage";
 import {
   View,
   Text,
@@ -51,13 +51,17 @@ export const CreatePostsScreen = ({ navigation }) => {
     // console.log("navigation", navigation);
   };
 
-  const uploadPhotoToServer = async () => {
+    const response = await fetch();
+    
+    const uploadPhotoToServer = async (photo) => {
     const response = await fetch(photo);
     const file = await response.blob();
     const uniquePostId = Date.now().toString();
 
-    const data = await ref(storage, `postsImages/${uniquePostId}`).put(file);
+    const data = await ref(storage, `postsImages/${uniquePostId}`);
     console.log("data", data);
+
+    await uploadBytesResumable(data, file);
   };
   // useEffect(() => {
   //   (async () => {

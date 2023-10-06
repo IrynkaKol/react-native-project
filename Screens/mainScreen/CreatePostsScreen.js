@@ -14,7 +14,9 @@ import * as Location from "expo-location";
 
 import { EvilIcons, MaterialIcons } from "@expo/vector-icons";
 
-const storage = getStorage();
+import {db, storage} from "../../firebase/config";
+
+
 
 export const CreatePostsScreen = ({ navigation }) => {
   const [hasPermission, setHasPermission] = useState(null);
@@ -39,11 +41,11 @@ export const CreatePostsScreen = ({ navigation }) => {
   }
 
   const takePhoto = async () => {
-    const photo = await camera.takePictureAsync();
+    const {uri} = await camera.takePictureAsync();
     const location = await Location.getCurrentPositionAsync();
 
-    setPhoto(photo.uri); // зберігаємо посилання на нашу фото
-    console.log("photo", photo);
+    setPhoto(uri); // зберігаємо посилання на нашу фото
+    console.log("photo uri", uri);
   };
   const sendPhoto = () => {
     uploadPhotoToServer();
@@ -51,17 +53,17 @@ export const CreatePostsScreen = ({ navigation }) => {
     // console.log("navigation", navigation);
   };
 
-    const response = await fetch();
-    
-    const uploadPhotoToServer = async (photo) => {
+      
+    const uploadPhotoToServer = async () => {
     const response = await fetch(photo);
-    const file = await response.blob();
+    const file = await response.blob(); // https://firebase.google.com/docs/storage/web/download-files
     const uniquePostId = Date.now().toString();
 
-    const data = await ref(storage, `postsImages/${uniquePostId}`);
+    const data = await ref(storage, `postImage/${uniquePostId}`).put(file)
+   
     console.log("data", data);
 
-    await uploadBytesResumable(data, file);
+     // await uploadBytesResumable(data, file);
   };
   // useEffect(() => {
   //   (async () => {
@@ -79,7 +81,7 @@ export const CreatePostsScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <View style={{ marginBottom: 32 }}>
-        <Camera style={styles.camera} ref={(ref) => setCamera(ref)}>
+        <Camera style={styles.camera} ref={setCamera}>
           {photo && (
             <View style={styles.takePhotoContainer}>
               <Image
@@ -110,7 +112,7 @@ export const CreatePostsScreen = ({ navigation }) => {
             </View>
           </TouchableOpacity>
         </Camera>
-
+        <TouchableOpacity>
         <Text
           style={{
             color: "#BDBDBD",
@@ -121,6 +123,7 @@ export const CreatePostsScreen = ({ navigation }) => {
         >
           Завантажте фото
         </Text>
+        </TouchableOpacity>
       </View>
       <View style={{ gap: 16 }}>
         <TextInput style={styles.input} placeholder="Назва..." />

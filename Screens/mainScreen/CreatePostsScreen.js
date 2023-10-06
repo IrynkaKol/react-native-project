@@ -60,15 +60,24 @@ export const CreatePostsScreen = ({ navigation }) => {
 
       
     const uploadPhotoToServer = async () => {
-    const response = await fetch(photo);
-    const file = await response.blob(); // https://firebase.google.com/docs/storage/web/download-files
-    const uniquePostId = Date.now().toString();
-
-    const data = await ref(storage, `postImage/${uniquePostId}`).put(file)
+      try { const response = await fetch(photo);
+        const file = await response.blob(); // https://firebase.google.com/docs/storage/web/download-files
+        const uniquePostId = Date.now().toString();
+    
+        const data = await ref(storage, `postImage/${uniquePostId}`)
+        console.log("storageRef:", data);
+       
+        console.log("data", data);
+    
+         await uploadBytesResumable(data, file);
+         const processedPhoto = await getDownloadURL(
+          ref(storage, `postImage/${uniquePostId}`)
+        );
+    
+        return processedPhoto;} catch (error) {
+          console.log(error)
+        }
    
-    console.log("data", data);
-
-     await uploadBytesResumable(data, file);
   };
   // useEffect(() => {
   //   (async () => {

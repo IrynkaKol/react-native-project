@@ -41,11 +41,16 @@ export const CreatePostsScreen = ({ navigation }) => {
   }
 
   const takePhoto = async () => {
+  try {
     const {uri} = await camera.takePictureAsync();
     const location = await Location.getCurrentPositionAsync();
 
     setPhoto(uri); // зберігаємо посилання на нашу фото
     console.log("photo uri", uri);
+  } catch (error) {
+    console.log("Помилка при фотографувані", error)
+  }
+    
   };
   const sendPhoto = () => {
     uploadPhotoToServer();
@@ -63,7 +68,7 @@ export const CreatePostsScreen = ({ navigation }) => {
    
     console.log("data", data);
 
-     // await uploadBytesResumable(data, file);
+     await uploadBytesResumable(data, file);
   };
   // useEffect(() => {
   //   (async () => {

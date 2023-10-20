@@ -69,14 +69,7 @@ export const CreatePostsScreen = ({ navigation }) => {
 
   const uploadPostToServer = async () => {
     const processedPhoto = await uploadPhotoToServer();
-    // const processedPhoto = await uploadPhotoToServer();
-    // const creatPost = await db.firestore().collection("posts").add({
-    //   photo: processedPhoto,
-    //   namePost,
-    //   location: location.coords,
-    //   userId,
-    //   login,
-    // });
+
     const createPost = await addDoc(collection(db, "posts"), {
       photo: processedPhoto,
       namePost,
@@ -84,8 +77,7 @@ export const CreatePostsScreen = ({ navigation }) => {
       userId,
       login,
     });
-    console.log("Document written with ID: ", createPost .id);
-
+    console.log("Document written with ID: ", createPost.id);
   };
 
   const uploadPhotoToServer = async () => {
@@ -98,9 +90,7 @@ export const CreatePostsScreen = ({ navigation }) => {
     console.log("dataRef", dataRef);
 
     await uploadBytesResumable(dataRef, file);
-    // const processedPhoto = ref(storge, "postImage")
-    //   .child(uniquePostId)
-    //   .getDownloadURL();
+    
     const processedPhoto = await getDownloadURL(
       ref(storage, `postImage/${uniquePostId}`)
     );

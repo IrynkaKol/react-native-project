@@ -9,18 +9,35 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { EvilIcons } from "@expo/vector-icons";
+import db from "../../firebase/config";
+import { doc, collection, onSnapshot } from "firebase/firestore";
 
 // const Tab = createBottomTabNavigator();
 
 export const Home = ({ route, navigation }) => {
   const [posts, setPosts] = useState([]);
 
+  const getAllPosts = async () => {
+   await onSnapshot(collection(db, "posts"), (snapshot) => {
+      const postsData = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+       console.log("postsData", postsData); // Перевірка отриманих даних
+      setPosts(postsData);
+    });
+   
+    };
+  
+
   useEffect(() => {
-    if (route.params) {
-      setPosts((prevState) => [...prevState, route.params]);
-    }
-  }, [route.params]);
-  console.log("posts", posts);
+    getAllPosts();
+    // if (route.params) {
+    //   setPosts((prevState) => [...prevState, route.params]);
+    // }
+  }, []);
+  //}, [route.params]);
+  // console.log("posts", posts);
 
   return (
     <View style={styles.container}>
@@ -33,7 +50,7 @@ export const Home = ({ route, navigation }) => {
               marginBottom: 10,
               marginTop: 15,
               justifyContent: "center",
-              marginHorizontal: 16
+              marginHorizontal: 16,
               // alignItems: "center",
             }}
           >
@@ -47,15 +64,25 @@ export const Home = ({ route, navigation }) => {
                 borderRadius: 8,
               }}
             />
-            <View style={{ marginTop: 15, flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start', gap: 50 }}>
-              <TouchableOpacity onPress={() => navigation.navigate("Comments")} style={{}}>
+            <View
+              style={{
+                marginTop: 15,
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "flex-start",
+                gap: 50,
+              }}
+            >
+              <TouchableOpacity
+                onPress={() => navigation.navigate("Comments")}
+                style={{}}
+              >
                 <EvilIcons name="comment" size={24} color="#BDBDBD" />
               </TouchableOpacity>
-              
-              <TouchableOpacity onPress={() => navigation.navigate("Map")} >
+
+              <TouchableOpacity onPress={() => navigation.navigate("Map")}>
                 <EvilIcons name="location" size={24} color="#BDBDBD" />
               </TouchableOpacity>
-              
             </View>
           </View>
         )}

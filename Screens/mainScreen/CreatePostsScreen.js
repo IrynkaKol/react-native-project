@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
-import { getStorage, ref, uploadBytesResumable, getDownloadURL  } from "firebase/storage";
+import { useSelector } from "react-redux";
+import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import {
   View,
   Text,
@@ -14,20 +15,29 @@ import * as Location from "expo-location";
 
 import { EvilIcons, MaterialIcons } from "@expo/vector-icons";
 
-import {db, storage} from "../../firebase/config";
-
-
+import { db, storage } from "../../firebase/config";
+import { addDoc, collection } from "firebase/firestore";
 
 export const CreatePostsScreen = ({ navigation }) => {
   const [hasPermission, setHasPermission] = useState(null);
+
   const [camera, setCamera] = useState(null);
   const [photo, setPhoto] = useState(null);
+  const [namePost, setNamePost] = useState("");
+  const [location, setLocation] = useState(null);
+
+  const { userId, login } = useSelector((state) => state.auth);
 
   useEffect(() => {
     (async () => {
-      const { status } = await Camera.requestCameraPermissionsAsync();
+      let { status } = await Camera.requestCameraPermissionsAsync();
+      if (status !== "granted") {
+        console.log("Permission to access location was denied");
+      }
+
       await MediaLibrary.requestPermissionsAsync();
-      await Location.requestForegroundPermissionsAsync();
+      const locationRes = await Location.getCurrentPositionAsync({});
+      setLocation(locationRes);
 
       setHasPermission(status === "granted");
     })();
@@ -41,56 +51,61 @@ export const CreatePostsScreen = ({ navigation }) => {
   }
 
   const takePhoto = async () => {
-  try {
-    const {uri} = await camera.takePictureAsync();
-    const location = await Location.getCurrentPositionAsync();
+    console.log("namePost", namePost);
+    console.log("location", location);
+
+    const { uri } = await camera.takePictureAsync();
 
     setPhoto(uri); // зберігаємо посилання на нашу фото
+
     console.log("photo uri", uri);
-  } catch (error) {
-    console.log("Помилка при фотографувані", error)
-  }
-    
   };
+
   const sendPhoto = () => {
-    uploadPhotoToServer();
+    uploadPostToServer();
     navigation.navigate("Home", { photo });
     // console.log("navigation", navigation);
   };
 
-      
-    const uploadPhotoToServer = async () => {
-      try { const response = await fetch(photo);
-        const file = await response.blob(); // https://firebase.google.com/docs/storage/web/download-files
-        const uniquePostId = Date.now().toString();
-    
-        const data = await ref(storage, `postImage/${uniquePostId}`)
-        console.log("storageRef:", data);
-       
-        console.log("data", data);
-    
-         await uploadBytesResumable(data, file);
-         const processedPhoto = await getDownloadURL(
-          ref(storage, `postImage/${uniquePostId}`)
-        );
-    
-        return processedPhoto;} catch (error) {
-          console.log(error)
-        }
-   
+  const uploadPostToServer = async () => {
+    const processedPhoto = await uploadPhotoToServer();
+    // const processedPhoto = await uploadPhotoToServer();
+    // const creatPost = await db.firestore().collection("posts").add({
+    //   photo: processedPhoto,
+    //   namePost,
+    //   location: location.coords,
+    //   userId,
+    //   login,
+    // });
+    const createPost = await addDoc(collection(db, "posts"), {
+      photo: processedPhoto,
+      namePost,
+      location: location.coords,
+      userId,
+      login,
+    });
+    console.log("Document written with ID: ", createPost .id);
+
   };
-  // useEffect(() => {
-  //   (async () => {
 
-  //     let { status } = await Location.requestForegroundPermissionsAsync();
-  //     console.log('status', status)
-  //     if (status !== 'granted') {
-  //       setErrorMsg('Permission to access location was denied');
-  //       return;
-  //     }
+  const uploadPhotoToServer = async () => {
+    const response = await fetch(photo);
+    const file = await response.blob(); // https://firebase.google.com/docs/storage/web/download-files
+    const uniquePostId = Date.now().toString();
 
-  //   })();
-  // }, []);
+    const dataRef = await ref(storage, `postImage/${uniquePostId}`);
+
+    console.log("dataRef", dataRef);
+
+    await uploadBytesResumable(dataRef, file);
+    // const processedPhoto = ref(storge, "postImage")
+    //   .child(uniquePostId)
+    //   .getDownloadURL();
+    const processedPhoto = await getDownloadURL(
+      ref(storage, `postImage/${uniquePostId}`)
+    );
+    return processedPhoto;
+  };
 
   return (
     <View style={styles.container}>
@@ -127,20 +142,24 @@ export const CreatePostsScreen = ({ navigation }) => {
           </TouchableOpacity>
         </Camera>
         <TouchableOpacity>
-        <Text
-          style={{
-            color: "#BDBDBD",
-            fontFamily: "Roboto-Regular",
-            fontSize: 16,
-            lineHeight: 19,
-          }}
-        >
-          Завантажте фото
-        </Text>
+          <Text
+            style={{
+              color: "#BDBDBD",
+              fontFamily: "Roboto-Regular",
+              fontSize: 16,
+              lineHeight: 19,
+            }}
+          >
+            Завантажте фото
+          </Text>
         </TouchableOpacity>
       </View>
       <View style={{ gap: 16 }}>
-        <TextInput style={styles.input} placeholder="Назва..." />
+        <TextInput
+          style={styles.input}
+          placeholder="Назва..."
+          onChangeText={setNamePost}
+        />
         <View style={{ flexDirection: "row", alignItems: "center" }}>
           <EvilIcons name="location" size={24} color="black" />
           <TextInput style={styles.input} placeholder="Місцевість..." />
@@ -178,11 +197,14 @@ const styles = StyleSheet.create({
   },
   input: {
     height: 50,
-    padding: 16,
+    paddingTop: 16,
+    paddingBottom: 15,
     fontFamily: "Roboto-Regular",
     fontSize: 16,
     lineHeight: 19,
     borderBottomWidth: 1,
+    borderBottomColor: "#E8E8E8",
+    color: "#212121",
     borderColor: "#E8E8E8",
   },
   publishedButton: {

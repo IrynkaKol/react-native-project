@@ -78,7 +78,7 @@ export const Home = ({ route, navigation }) => {
               }}
             >
               <TouchableOpacity
-                onPress={() => navigation.navigate("Comments")}
+                onPress={() => navigation.navigate("Comments", {postId: item.id})}
                 style={{}}
               >
                 <EvilIcons name="comment" size={24} color="#BDBDBD" />

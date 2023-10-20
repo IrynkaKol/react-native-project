@@ -9,7 +9,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { EvilIcons } from "@expo/vector-icons";
-import db from "../../firebase/config";
+import {db, storage} from "../../firebase/config";
 import { doc, collection, onSnapshot } from "firebase/firestore";
 
 // const Tab = createBottomTabNavigator();
@@ -20,10 +20,11 @@ export const Home = ({ route, navigation }) => {
   const getAllPosts = async () => {
    await onSnapshot(collection(db, "posts"), (snapshot) => {
       const postsData = snapshot.docs.map((doc) => ({
-        id: doc.id,
         ...doc.data(),
+        id: doc.id,
+        
       }));
-       console.log("postsData", postsData); // Перевірка отриманих даних
+       // console.log("postsData", postsData); // Перевірка отриманих даних
       setPosts(postsData);
     });
    
@@ -64,6 +65,9 @@ export const Home = ({ route, navigation }) => {
                 borderRadius: 8,
               }}
             />
+            <View>
+              <Text>{item.namePost}</Text>
+            </View>
             <View
               style={{
                 marginTop: 15,
@@ -80,7 +84,7 @@ export const Home = ({ route, navigation }) => {
                 <EvilIcons name="comment" size={24} color="#BDBDBD" />
               </TouchableOpacity>
 
-              <TouchableOpacity onPress={() => navigation.navigate("Map")}>
+              <TouchableOpacity onPress={() => navigation.navigate("Map", {location: item.location})}>
                 <EvilIcons name="location" size={24} color="#BDBDBD" />
               </TouchableOpacity>
             </View>

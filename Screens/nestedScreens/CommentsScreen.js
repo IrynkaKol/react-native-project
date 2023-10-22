@@ -55,16 +55,6 @@ export const CommentsScreen = ({ route }) => {
         )
     );
   };
-  // postRef = doc(db, "posts", postId);
-  // const commentsCollectionRef = collection(postRef, "comments");
-  // onSnapshot(commentsCollectionRef, (snapshot) => {
-  //   const postsData = snapshot.docs.map((doc) => ({
-  //     ...doc.data(),
-  //     id: doc.id,
-  //   }));
-  //    console.log("postsData", postsData); // Перевірка отриманих даних
-  //   setAllComments(postsData);
-  // });
 
   return (
     <View style={styles.container}>
@@ -129,7 +119,7 @@ const styles = StyleSheet.create({
     padding: 16,
     borderRadius: 6,
     borderWidth: 1,
-    borderColor: '#20b2AA',
+    borderColor: "#20b2AA",
     backgroundColor: "rgba(0, 0, 0, 0.03)",
   },
   inputComment: {

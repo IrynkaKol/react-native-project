@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { useNavigation } from "@react-navigation/native";
 import {
   View,
@@ -13,6 +14,7 @@ import {
   TouchableWithoutFeedback,
 } from "react-native";
 import { useDispatch } from "react-redux";
+import { storage } from "../../firebase/config";
 import backgroundImage from "../../assets/images/background.png";
 import * as ImagePicker from "expo-image-picker";
 import {ImageViewer} from "../../components/ImageViewer"
@@ -20,6 +22,7 @@ import {ImageViewer} from "../../components/ImageViewer"
 import { registerDB } from "../../redux/auth/authOperations";
 
 const initialState = {
+  photoURL: null,
   login: "",
   email: "",
   password: "",
@@ -30,6 +33,7 @@ export const RegistrationScreen = ({}) => {
   const [isShowKeybord, setIsShowKeybord] = useState(false);
   const [state, setState] = useState(initialState);
   const [selectedImage, setSelectedImage] = useState(null);
+  
   
   const dispatch = useDispatch()
 
@@ -43,6 +47,21 @@ export const RegistrationScreen = ({}) => {
     setState(initialState);
      // navigation.navigate("Home")
   };
+  const uploadAvatarToServer = async (photoURL) => {
+    const response = await fetch(photoURL);
+    const file = await response.blob();
+    const uniqueAvatarId = Date.now().toString();
+  
+    const dataRef = await ref(storage, `avatarImage/${uniqueAvatarId}`);
+    console.log("dataRefAvatar", dataRef);
+  
+    await uploadBytesResumable(dataRef, file);
+  
+    const processedAvatar = await getDownloadURL(ref(storage, `avatarImage/${uniqueAvatarId}`));
+    console.log(" processedAvatar",processedAvatar)
+    return processedAvatar;
+  
+    }
   const pickImageAsync = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       allowsEditing: true,
@@ -50,11 +69,15 @@ export const RegistrationScreen = ({}) => {
     });
 
     if (!result.canceled) {
+      const photoURL = await uploadAvatarToServer(result.assets[0].uri);
+      // setState((prev) => ({ ...prev, photoURL }));
       setSelectedImage(result.assets[0].uri);
     } else {
       alert("You did not select any image.");
     }
   };
+
+  
   const handleDeleteImage = () => {
     setSelectedImage(null);
   };
@@ -72,6 +95,7 @@ export const RegistrationScreen = ({}) => {
         >
           <View style={styles.container}>
             <ImageViewer
+            // state={state}
               selectedImage={selectedImage}
               onPress={pickImageAsync}
               onDelete={handleDeleteImage}

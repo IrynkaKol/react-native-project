@@ -2,7 +2,8 @@ import { View, TouchableOpacity, StyleSheet, Image } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 
 export const ImageViewer = ({ selectedImage, onPress, onDelete }) => {
-    const defaultImage = require('../assets/images/rectangle.png')
+    const defaultImage = require('../assets/images/rectangle.png');
+    console.log("selectedImage", selectedImage)
   const imageSource = selectedImage !== null ? { uri: selectedImage } : defaultImage;
   const handleDelete = () => {
     onDelete();

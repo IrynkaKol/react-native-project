@@ -14,8 +14,10 @@ export const registerDB =
   ({  login, email, password, photoURL, }) =>
   async (dispatch, getState) => {
     try {
+      console.log("photoURL before updateUserProfile:", photoURL);
       await createUserWithEmailAndPassword(auth, email, password);
-
+      const processedAvatar = await uploadAvatarToServer(photoURL);
+      console.log(processedAvatar)
       const user = await auth.currentUser;
        console.log("user: ", user);
 
@@ -27,7 +29,8 @@ export const registerDB =
         updateUserProfile({
           userId: user.uid,
           login: user.displayName,
-          photoURL,
+          email: user.email,
+          photoURL: user.photoURL,
         })
       );
       

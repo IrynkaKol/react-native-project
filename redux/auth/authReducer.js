@@ -11,14 +11,27 @@ const state = {
 export const authSlice = createSlice({
   name: "auth",
   initialState: state,
+  
   reducers: {
-    updateUserProfile: (state, { payload }) => ({
-      ...state,
-      userId: payload.userId,
-      login: payload.login,
-      email: payload.email,
-      photoURL: payload.photoURL,
-    }),
+    
+    updateUserProfile: (state, { payload }) => {
+      console.log("login:", payload.login);
+      console.log("email:", payload.email);
+      console.log("photoURL:", payload.photoURL);
+
+      return {
+        ...state,
+        userId: payload.userId,
+        login: payload.login,
+        email: payload.email,
+        photoURL: payload.photoURL,
+      };
+      // ...state,
+      // userId: payload.userId,
+      // login: payload.login,
+      // email: payload.email,
+      // photoURL: payload.photoURL,
+    },
     authStateChange: (state, { payload }) => ({
       ...state,
       stateChange: payload.stateChange,

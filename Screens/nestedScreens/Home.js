@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useSelector } from 'react-redux';
 import {
   View,
   Text,
@@ -16,6 +17,8 @@ import { doc, collection, onSnapshot } from "firebase/firestore";
 
 export const Home = ({ route, navigation }) => {
   const [posts, setPosts] = useState([]);
+ 
+  const {login, email, photoURL} = useSelector((state) => state.auth);
 
   const getAllPosts = async () => {
    await onSnapshot(collection(db, "posts"), (snapshot) => {
@@ -42,6 +45,16 @@ export const Home = ({ route, navigation }) => {
 
   return (
     <View style={styles.container}>
+       <View style={styles.profileContainer}>
+        <Image
+          style={styles.profileImages}
+          source={{ uri: photoURL }}
+        />
+        <View style={styles.profileInfo}>
+          <Text style={styles.profileName}>{login}</Text>
+          <Text style={styles.profileEmail}>{email}</Text>
+        </View>
+      </View>
       <FlatList
         data={posts}
         keyExtractor={(item, indx) => indx.toString()}
@@ -99,5 +112,24 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "center",
+  },
+  profileContainer: {
+    marginTop: 32,
+    marginBottom: 32,
+    paddingHorizontal: 16,
+    flexDirection: 'row',
+  },
+  profileImages: {
+    width: 60,
+    height: 60,
+    borderRadius: 16,
+  },
+  profileName: {
+    fontFamily: 'Roboto-Medium',
+    fontSize: 13,
+  },
+  profileEmail: {
+    fontFamily: 'Roboto-Regular',
+    fontSize: 11,
   },
 });

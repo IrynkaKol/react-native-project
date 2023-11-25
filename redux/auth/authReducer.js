@@ -3,6 +3,8 @@ import { createSlice } from "@reduxjs/toolkit";
 const state = {
   userId: null,
   login: null,
+  email: null,
+  photoURL: null,
   stateChange: false, // перевіряє чи є ви власником
 };
 
@@ -14,6 +16,8 @@ export const authSlice = createSlice({
       ...state,
       userId: payload.userId,
       login: payload.login,
+      email: payload.email,
+      photoURL: payload.photoURL,
     }),
     authStateChange: (state, { payload }) => ({
       ...state,

@@ -63,7 +63,7 @@ export const CreatePostsScreen = ({ navigation }) => {
 
   const sendPhoto = () => {
     uploadPostToServer();
-    navigation.navigate("Home", { photo });
+    navigation.navigate("DefaultPostsScreen", { photo });
     // console.log("navigation", navigation);
   };
 

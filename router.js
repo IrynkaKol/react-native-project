@@ -8,7 +8,7 @@ const Tab = createBottomTabNavigator();
 
 import { RegistrationScreen } from "./Screens/auth/RegistrationScreen";
 import { LoginScreen } from "./Screens/auth/LoginScreen";
-import { Home } from "./Screens/nestedScreens/Home";
+import { DefaultPostsScreen } from "./Screens/nestedScreens/DefaultPostsScreen";
 import { PostsScreen } from "./Screens/mainScreen/PostsScreen";
 import { CreatePostsScreen } from "./Screens/mainScreen/CreatePostsScreen";
 import { ProfileScreen } from "./Screens/mainScreen/ProfileScreen";

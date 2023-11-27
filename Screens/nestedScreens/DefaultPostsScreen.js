@@ -16,13 +16,13 @@ import { doc, collection, onSnapshot } from "firebase/firestore";
 
 // const Tab = createBottomTabNavigator();
 
-export const Home = ({ route, navigation }) => {
+export const DefaultPostsScreen = ({ route, navigation }) => {
   const [posts, setPosts] = useState([]);
 
 
   const { authState } = useAuth();
  
-  // const {login, email, photoURL} = useSelector((state) => state.auth);
+ 
 
   const getAllPosts = async () => {
    await onSnapshot(collection(db, "posts"), (snapshot) => {
@@ -122,11 +122,13 @@ const styles = StyleSheet.create({
     marginBottom: 32,
     paddingHorizontal: 16,
     flexDirection: 'row',
+    alignItems: 'center',
   },
   profileImages: {
     width: 60,
     height: 60,
     borderRadius: 16,
+    marginRight: 8,
   },
   profileName: {
     fontFamily: 'Roboto-Medium',

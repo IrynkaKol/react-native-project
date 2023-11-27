@@ -2,7 +2,7 @@
 // import { View, Text, StyleSheet, FlatList, Image } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack"; // для створення скринів 
 
-import { Home } from "../nestedScreens/Home";
+import { DefaultPostsScreen } from "../nestedScreens/DefaultPostsScreen";
 import { MapScreen } from "../nestedScreens/MapScreen";
 import { CommentsScreen } from "../nestedScreens/CommentsScreen";
 
@@ -12,7 +12,7 @@ export const PostsScreen = () => {
   
   return (
     <NestedScreens.Navigator>
-      <NestedScreens.Screen name="Home" component={Home}  options={{headerShown: false
+      <NestedScreens.Screen name="DefaultPostsScreen" component={DefaultPostsScreen}  options={{headerShown: false
           }}/>
       <NestedScreens.Screen name="Comments" component={CommentsScreen }  
       />

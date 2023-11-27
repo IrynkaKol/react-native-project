@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+// import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { useNavigation } from "@react-navigation/native";
 import {
   View,
@@ -19,7 +19,7 @@ import backgroundImage from "../../assets/images/background.png";
 import * as ImagePicker from "expo-image-picker";
 import {ImageViewer} from "../../components/ImageViewer"
 
-import { registerDB } from "../../redux/auth/authOperations";
+import { registerDB,  uploadAvatarToServer } from "../../redux/auth/authOperations";
 
 const initialState = {
   photoURL: null,
@@ -32,7 +32,7 @@ export const RegistrationScreen = ({}) => {
   
   const [isShowKeybord, setIsShowKeybord] = useState(false);
   const [state, setState] = useState(initialState);
-  const [selectedImage, setSelectedImage] = useState(null);
+  // const [selectedImage, setSelectedImage] = useState(null);
   
   
   const dispatch = useDispatch()
@@ -42,26 +42,30 @@ export const RegistrationScreen = ({}) => {
   const handleSubmit = () => {
     setIsShowKeybord(false);
     Keyboard.dismiss();
-    console.log(state);
-    dispatch(registerDB(state))
-    setState(initialState);
+    const { login, email, password } = state;
+
+    if (login && email && password) {
+      dispatch(registerDB(state))
+      setState(initialState);
+    }
+   
      // navigation.navigate("Home")
   };
-  const uploadAvatarToServer = async (photoURL) => {
-    const response = await fetch(photoURL);
-    const file = await response.blob();
-    const uniqueAvatarId = Date.now().toString();
+  // const uploadAvatarToServer = async (photoURL) => {
+  //   const response = await fetch(photoURL);
+  //   const file = await response.blob();
+  //   const uniqueAvatarId = Date.now().toString();
   
-    const dataRef = await ref(storage, `avatarImage/${uniqueAvatarId}`);
-    console.log("dataRefAvatar", dataRef);
+  //   const dataRef = await ref(storage, `avatarImage/${uniqueAvatarId}`);
+  //   console.log("dataRefAvatar", dataRef);
   
-    await uploadBytesResumable(dataRef, file);
+  //   await uploadBytesResumable(dataRef, file);
   
-    const processedAvatar = await getDownloadURL(ref(storage, `avatarImage/${uniqueAvatarId}`));
-    console.log(" processedAvatar",processedAvatar)
-    return processedAvatar;
+  //   const processedAvatar = await getDownloadURL(ref(storage, `avatarImage/${uniqueAvatarId}`));
+  //   console.log(" processedAvatar",processedAvatar)
+  //   return processedAvatar;
   
-    }
+  //   }
   const pickImageAsync = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       allowsEditing: true,
@@ -70,8 +74,8 @@ export const RegistrationScreen = ({}) => {
 
     if (!result.canceled) {
       const photoURL = await uploadAvatarToServer(result.assets[0].uri);
-      // setState((prev) => ({ ...prev, photoURL }));
-      setSelectedImage(result.assets[0].uri);
+      setState((prev) => ({ ...prev, photoURL }));
+      // setSelectedImage(result.assets[0].uri);
     } else {
       alert("You did not select any image.");
     }
@@ -79,7 +83,8 @@ export const RegistrationScreen = ({}) => {
 
   
   const handleDeleteImage = () => {
-    setSelectedImage(null);
+    setState((prev) => ({ ...prev, photoURL: null }));
+    // setSelectedImage(null);
   };
 
   return (
@@ -95,8 +100,8 @@ export const RegistrationScreen = ({}) => {
         >
           <View style={styles.container}>
             <ImageViewer
-            // state={state}
-              selectedImage={selectedImage}
+           state={state}
+              // selectedImage={selectedImage}
               onPress={pickImageAsync}
               onDelete={handleDeleteImage}
             />

@@ -10,6 +10,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { EvilIcons } from "@expo/vector-icons";
+import { useAuth } from '../../hooks/useAuth';
 import {db, storage} from "../../firebase/config";
 import { doc, collection, onSnapshot } from "firebase/firestore";
 
@@ -17,8 +18,11 @@ import { doc, collection, onSnapshot } from "firebase/firestore";
 
 export const Home = ({ route, navigation }) => {
   const [posts, setPosts] = useState([]);
+
+
+  const { authState } = useAuth();
  
-  const {login, email, photoURL} = useSelector((state) => state.auth);
+  // const {login, email, photoURL} = useSelector((state) => state.auth);
 
   const getAllPosts = async () => {
    await onSnapshot(collection(db, "posts"), (snapshot) => {
@@ -48,11 +52,11 @@ export const Home = ({ route, navigation }) => {
        <View style={styles.profileContainer}>
         <Image
           style={styles.profileImages}
-          source={{ uri: photoURL }}
+          source={{ uri: authState.photoURL }}
         />
         <View style={styles.profileInfo}>
-          <Text style={styles.profileName}>{login}</Text>
-          <Text style={styles.profileEmail}>{email}</Text>
+          <Text style={styles.profileName}>{authState.login}</Text>
+          <Text style={styles.profileEmail}>{authState.email}</Text>
         </View>
       </View>
       <FlatList

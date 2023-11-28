@@ -1,18 +1,12 @@
-// import { StatusBar } from 'expo-status-bar';
 import "react-native-gesture-handler";
-import React from "react";
-import { Provider } from "react-redux";
-
-// import { AppLoading } from "expo";
-
-import { store } from "./redux/store";
-
-
-
+import { StatusBar } from 'expo-status-bar';
 import { useFonts } from "expo-font";
-// import { db } from "./firebase/config";
+import { Provider } from "react-redux";
+import { PersistGate } from 'redux-persist/integration/react';
+import { store, persistor  } from "./redux/store";
+import { Main } from './components/Main';
 
-import { Main } from "./components/Main";
+
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -24,9 +18,14 @@ export default function App() {
     return null;
   }
 
-  return (
+  return ( 
+  <>
+   <StatusBar style="auto" />
     <Provider store={store}>
+    <PersistGate persistor={persistor}>
       <Main/>
+      </PersistGate>
     </Provider>
+    </>
   );
 }

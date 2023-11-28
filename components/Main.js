@@ -1,27 +1,35 @@
-import React, { useState, useEffect } from "react";
-import {useSelector, useDispatch} from 'react-redux';
-import { NavigationContainer } from "@react-navigation/native";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { useRoute } from "../router";
-import { auth } from "../firebase/config";
-import {authStateChangedUser} from "../redux/auth/authOperations"
+import { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import { router } from '../router';
+import { useAuth } from '../hooks/useAuth';
+import { authStateChangedUser } from '../redux/auth/authOperations';
+
+
+const MainStack = createStackNavigator();
 
 export const Main = () => {
-    // const [user, setUser] = useState(null)
+    const {
+        authState: { stateChange },
+      } = useAuth();
+      const dispatch = useDispatch();
     
-    const {stateChange} = useSelector((state) => state.auth)
-    const dispatch = useDispatch();
-    // console.log(state)
-    useEffect(() => {
-        dispatch(authStateChangedUser())
-
-    }, [])
-    // const auth = getAuth();
-    // onAuthStateChanged(auth, (user) => setUser(user))
-    const routing = useRoute(stateChange); // true false null
+      const routing = router(stateChange); // true false null
+    
+      useEffect(() => {
+        dispatch(authStateChangedUser());
+      }, []);
+    
    
 
-    return <NavigationContainer>{routing}</NavigationContainer>
+      return (
+        <NavigationContainer>
+          <MainStack.Navigator initialRouteName="LoginScreen">
+            {routing}
+          </MainStack.Navigator>
+        </NavigationContainer>
+      );
 }
 
-console. disableYellowBox = true;
+// console. disableYellowBox = true;

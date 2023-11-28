@@ -13,7 +13,7 @@ import { Camera } from "expo-camera";
 import * as MediaLibrary from "expo-media-library";
 import * as Location from "expo-location";
 
-import { EvilIcons, MaterialIcons } from "@expo/vector-icons";
+import { EvilIcons, MaterialIcons, Feather } from "@expo/vector-icons";
 
 import { db, storage } from "../../firebase/config";
 import { addDoc, collection } from "firebase/firestore";
@@ -77,6 +77,7 @@ export const CreatePostsScreen = ({ navigation }) => {
       userId,
       login,
     });
+    navigation.navigate('DefaultPostsScreen');
     console.log("Document written with ID: ", createPost.id);
   };
 

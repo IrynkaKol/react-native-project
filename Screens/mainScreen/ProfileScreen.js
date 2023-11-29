@@ -12,11 +12,14 @@ import {
 import { authSignOutUser } from "../../redux/auth/authOperations";
 // import { auth } from "../../firebase/config";
 import { Ionicons } from "@expo/vector-icons";
+import { useAuth } from '../../hooks/useAuth';
 
 export const ProfileScreen = ({}) => {
   const dispatch = useDispatch();
   const [userPosts, setUserPosts] = useState([]);
   const { userId } = useSelector((state) => state.auth);
+
+  const { authState } = useAuth();
 
   useEffect(() => {
     getUsersPosts();
@@ -46,7 +49,12 @@ export const ProfileScreen = ({}) => {
       <FlatList
         data={userPosts}
         keyExtractor={(item, indx) =>  indx.toString()}
-        renderItem={({ item }) => (
+        renderItem={({ item: id,
+          photo,
+          namePost,
+          location,
+          convertedCoordinate: { country, region },
+          commentsCount, }) => (
           <View
             style={{
               marginBottom: 10,
@@ -57,7 +65,7 @@ export const ProfileScreen = ({}) => {
             }}
           >
             <Image
-              source={{ uri: item.photo }}
+              source={{ uri: photo }}
               style={{
                 width: 343,
                 height: 240,

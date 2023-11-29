@@ -55,7 +55,7 @@ export const CreatePostsScreen = ({ navigation }) => {
     const disabled =
       photo !== null &&
       namePost !== "" &&
-      // convertedCoordinate !== null &&
+      convertedCoordinate !== null &&
       location !== null
         ? false
         : true;
@@ -78,14 +78,34 @@ export const CreatePostsScreen = ({ navigation }) => {
 
       const { coords } = await Location.getCurrentPositionAsync();
       setLocation(coords);
-      const address = await Location.reverseGeocodeAsync({
-        latitude: coords.latitude,
-        longitude: coords.longitude,
-      });
 
-      const { region, country } = address[0];
+      const addressResponse = await fetch(
+      `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${coords.latitude}&longitude=${coords.longitude}&localityLanguage=en`
+    );
+    try {
+      const addressResponse = await fetch(
+        `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${coords.latitude}&longitude=${coords.longitude}&localityLanguage=en`
+      );
 
-      setConvertedCoordinate({ region, country });
+      if (!addressResponse.ok) {
+        throw new Error(`HTTP error! Status: ${addressResponse.status}`);
+      }
+
+      const addressData = await addressResponse.json();
+      const { principalSubdivision, countryName } = addressData;
+
+      setConvertedCoordinate({ region: principalSubdivision, country: countryName });
+    } catch (error) {
+      console.error('Помилка при отриманні даних від API:', error.message);
+    }
+      // const address = await Location.reverseGeocodeAsync({
+      //   latitude: coords.latitude,
+      //   longitude: coords.longitude,
+      // });
+
+      // const { region, country } = address[0];
+
+      // setConvertedCoordinate({ region, country });
     }
   };
 
@@ -98,15 +118,39 @@ export const CreatePostsScreen = ({ navigation }) => {
       setPhoto(galleryResult.assets[0].uri);
       const { coords } = await Location.getCurrentPositionAsync();
       setLocation(coords);
+      try {
+        const addressResponse = await fetch(
+          `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${coords.latitude}&longitude=${coords.longitude}&localityLanguage=en`
+        );
+  
+        if (!addressResponse.ok) {
+          throw new Error(`HTTP error! Status: ${addressResponse.status}`);
+        }
+  
+        const addressData = await addressResponse.json();
+        const { principalSubdivision, countryName } = addressData;
+  
+        setConvertedCoordinate({ region: principalSubdivision, country: countryName });
+      } catch (error) {
+        console.error('Помилка при отриманні даних від API:', error.message);
+      }
 
-      const address = await Location.reverseGeocodeAsync({
-        latitude: coords.latitude,
-        longitude: coords.longitude,
-      });
+      // const addressResponse = await fetch(
+      //   `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${coords.latitude}&longitude=${coords.longitude}&localityLanguage=en`
+      // );
+      // const addressData = await addressResponse.json();
+      // const { principalSubdivision, countryName } = addressData;
+  
+      // setConvertedCoordinate({ region: principalSubdivision, country: countryName });
 
-      const { region, country } = address[0];
+      // const address = await Location.reverseGeocodeAsync({
+      //   latitude: coords.latitude,
+      //   longitude: coords.longitude,
+      // });
 
-      setConvertedCoordinate({ region, country });
+      // const { region, country } = address[0];
+
+      // setConvertedCoordinate({ region, country });
     }
   };
 

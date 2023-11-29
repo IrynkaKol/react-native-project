@@ -109,10 +109,10 @@ export const DefaultPostsScreen = ({ route, navigation }) => {
                 
               </TouchableOpacity>
 
-              <TouchableOpacity onPress={() => navigation.navigate("MapScreen", {photo,
+              <TouchableOpacity style={styles.info} onPress={() => navigation.navigate("MapScreen", {photo,
                       namePost,
                       location,})}>
-              <Feather name="map-pin" size={24} color="black" />
+              <Feather name="map-pin" size={24} color="#BDBDBD" />
               <Text style={[{ ...styles.text, ...styles.locationText }]}>{`${region}, ${country}`}</Text>
               </TouchableOpacity>
             </View>
@@ -156,5 +156,10 @@ const styles = StyleSheet.create({
   locationText: {
     fontFamily: 'Roboto-Regular',
     textDecorationLine: 'underline',
+  },
+  info: {
+    flexDirection: 'row',
+    gap: 5,
+    alignItems: 'center',
   },
 });

@@ -1,10 +1,10 @@
 import { useState } from "react";
-import { View, Text, TouchableOpacity } from "react-native";
+import { Text, TouchableOpacity } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { PostsScreen } from "../mainScreen/PostsScreen";
 import { CreatePostsScreen } from "../mainScreen/CreatePostsScreen";
 import { ProfileScreen } from "../mainScreen/ProfileScreen";
-import { Ionicons, AntDesign, Feather } from "@expo/vector-icons";
+import { Feather } from "@expo/vector-icons";
 import { Colors } from "react-native/Libraries/NewAppScreen";
 
 const Tab = createBottomTabNavigator();

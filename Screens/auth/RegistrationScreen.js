@@ -51,21 +51,7 @@ export const RegistrationScreen = ({}) => {
    
      // navigation.navigate("Home")
   };
-  // const uploadAvatarToServer = async (photoURL) => {
-  //   const response = await fetch(photoURL);
-  //   const file = await response.blob();
-  //   const uniqueAvatarId = Date.now().toString();
-  
-  //   const dataRef = await ref(storage, `avatarImage/${uniqueAvatarId}`);
-  //   console.log("dataRefAvatar", dataRef);
-  
-  //   await uploadBytesResumable(dataRef, file);
-  
-  //   const processedAvatar = await getDownloadURL(ref(storage, `avatarImage/${uniqueAvatarId}`));
-  //   console.log(" processedAvatar",processedAvatar)
-  //   return processedAvatar;
-  
-  //   }
+ 
   const pickImageAsync = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       allowsEditing: true,

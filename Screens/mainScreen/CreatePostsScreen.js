@@ -4,27 +4,31 @@ import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import {
   View,
   Text,
-  StyleSheet,
   TouchableOpacity,
-  Image,
   TextInput,
+  Image,
+  StyleSheet,
+  TouchableWithoutFeedback,
+  Keyboard,
 } from "react-native";
 import { Camera } from "expo-camera";
 import * as MediaLibrary from "expo-media-library";
+import * as ImagePicker from "expo-image-picker";
 import * as Location from "expo-location";
 
 import { EvilIcons, MaterialIcons, Feather } from "@expo/vector-icons";
 
 import { db, storage } from "../../firebase/config";
 import { addDoc, collection } from "firebase/firestore";
+import { useAuth } from "../../hooks/useAuth";
 
 export const CreatePostsScreen = ({ navigation }) => {
   const [hasPermission, setHasPermission] = useState(null);
-
+  const [location, setLocation] = useState(null);
+  const [convertedCoordinate, setConvertedCoordinate] = useState(null);
   const [camera, setCamera] = useState(null);
   const [photo, setPhoto] = useState(null);
   const [namePost, setNamePost] = useState("");
-  const [location, setLocation] = useState(null);
 
   const { userId, login } = useSelector((state) => state.auth);
 
@@ -50,16 +54,34 @@ export const CreatePostsScreen = ({ navigation }) => {
     return <Text>No access to camera</Text>;
   }
 
-  const takePhoto = async () => {
-    console.log("namePost", namePost);
-    console.log("location", location);
-
-    const { uri } = await camera.takePictureAsync();
-
-    setPhoto(uri); // зберігаємо посилання на нашу фото
-
-    console.log("photo uri", uri);
+  const openCamera = async () => {
+    const result = await ImagePicker.launchCameraAsync();
+    if (!result.canceled && result.assets.length > 0) {
+      await MediaLibrary.createAssetAsync(result.assets[0].uri);
+      setPhoto(result.assets[0].uri);
+    }
   };
+
+  const openGallery = async () => {
+    const galleryResult = await ImagePicker.launchImageLibraryAsync({
+      allowsEditing: true,
+      quality: 1,
+    });
+    if (!galleryResult.canceled && galleryResult.assets.length > 0) {
+      setPhoto(galleryResult.assets[0].uri);
+    }
+  };
+
+  // const takePhoto = async () => {
+  //   console.log("namePost", namePost);
+  //   console.log("location", location);
+
+  //   const { uri } = await camera.takePictureAsync();
+
+  //   setPhoto(uri); // зберігаємо посилання на нашу фото
+
+  //   console.log("photo uri", uri);
+  // };
 
   const sendPhoto = () => {
     uploadPostToServer();
@@ -77,7 +99,7 @@ export const CreatePostsScreen = ({ navigation }) => {
       userId,
       login,
     });
-    navigation.navigate('DefaultPostsScreen');
+    navigation.navigate("DefaultPostsScreen");
     console.log("Document written with ID: ", createPost.id);
   };
 
@@ -91,7 +113,7 @@ export const CreatePostsScreen = ({ navigation }) => {
     console.log("dataRef", dataRef);
 
     await uploadBytesResumable(dataRef, file);
-    
+
     const processedPhoto = await getDownloadURL(
       ref(storage, `postImage/${uniquePostId}`)
     );
@@ -101,6 +123,14 @@ export const CreatePostsScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <View style={{ marginBottom: 32 }}>
+        <View style={[styles.cameraIconContainer, { backgroundColor: photo ? "rgba(255, 255, 255, 0.30)" : "#fff" }, {borderColor: photo ? "rgba(255, 255, 255, 0.30)" : "#fff"}]}>
+          <View style={{ position: "absolute", top: 18, right: 18 }}>
+            <TouchableOpacity onPress={openCamera}>
+              <MaterialIcons name="photo-camera" size={24} color={photo ? "#fff" : "#BDBDBD"} />
+            </TouchableOpacity>
+          </View>
+        </View>
+
         <Camera style={styles.camera} ref={setCamera}>
           {photo && (
             <View style={styles.takePhotoContainer}>
@@ -109,30 +139,30 @@ export const CreatePostsScreen = ({ navigation }) => {
                 style={{
                   borderColor: "#fff",
                   borderWidth: 1,
+                  width: "100%",
+                  height: "100%",
                   borderRadius: 8,
                 }}
+                resizeMode="cover"
               />
             </View>
           )}
-          <TouchableOpacity onPress={takePhoto}>
-            <View
+
+          {photo && (
+            <Image
+              source={{ uri: photo }}
               style={{
-                borderWidth: 1,
-                borderColor: "#ffffff",
-                borderRadius: 50,
-                backgroundColor: "#fff",
-                height: 60,
-                width: 60,
-                position: "relative",
+                // flex: 1,
+                width: "100%",
+                height: "100%",
+                borderRadius: 8,
+                top: 0,
+                left: 0,
               }}
-            >
-              <View style={{ position: "absolute", top: 18, right: 18 }}>
-                <MaterialIcons name="photo-camera" size={24} color="#BDBDBD" />
-              </View>
-            </View>
-          </TouchableOpacity>
+            />
+          )}
         </Camera>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={openGallery}>
           <Text
             style={{
               color: "#BDBDBD",
@@ -141,7 +171,7 @@ export const CreatePostsScreen = ({ navigation }) => {
               lineHeight: 19,
             }}
           >
-            Завантажте фото
+            {photo ? "Редагувати фото" : "Завантажте фото"}
           </Text>
         </TouchableOpacity>
       </View>
@@ -149,6 +179,7 @@ export const CreatePostsScreen = ({ navigation }) => {
         <TextInput
           style={styles.input}
           placeholder="Назва..."
+          value={namePost.trimStart()}
           onChangeText={setNamePost}
         />
         <View style={{ flexDirection: "row", alignItems: "center" }}>
@@ -159,6 +190,24 @@ export const CreatePostsScreen = ({ navigation }) => {
       <TouchableOpacity onPress={sendPhoto} style={styles.publishedButton}>
         <Text style={styles.publishedTitleButton}>Опубліковати</Text>
       </TouchableOpacity>
+      <View
+        style={{
+          alignItems: "center",
+          marginBottom: 34,
+        }}
+      >
+        <TouchableOpacity
+          style={styles.buttonDelete}
+          onPress={() => {
+            setCapturedPhoto(null);
+            setNamePost("");
+            setConvertedCoordinate(null);
+            console.log("Delete");
+          }}
+        >
+          <Feather name="trash-2" size={24} color="#BDBDBD" />
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
@@ -180,11 +229,28 @@ const styles = StyleSheet.create({
     borderColor: "#E8E8E8",
     borderWidth: 1,
     borderRadius: 8,
+    position: "relative",
   },
   takePhotoContainer: {
     position: "absolute",
     top: 0,
     left: 0,
+  },
+
+  cameraIconContainer: {
+    borderWidth: 1,
+    borderColor: "#ffffff",
+    borderRadius: 50,
+    backgroundColor: "#fff",
+    position: "absolute",
+    justifyContent: "center",
+    alignItems: "center",
+    top: 135,
+    left: 142,
+    // transform: [{ translateX: 142 }, { translateY: 125 }],
+    zIndex: 1,
+    height: 60,
+    width: 60,
   },
   input: {
     height: 50,
@@ -211,5 +277,13 @@ const styles = StyleSheet.create({
     fontFamily: "Roboto-Regular",
     color: "#BDBDBD",
     textAlign: "center",
+  },
+  buttonDelete: {
+    justifyContent: "center",
+    alignItems: "center",
+    width: 70,
+    height: 40,
+    borderRadius: 20,
+    backgroundColor: "#F6F6F6",
   },
 });

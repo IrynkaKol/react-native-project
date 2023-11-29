@@ -95,13 +95,13 @@ export const DefaultPostsScreen = ({ route, navigation }) => {
               }}
             >
               <TouchableOpacity
-                onPress={() => navigation.navigate("Comments", {postId: item.id})}
+                onPress={() => navigation.navigate("CommentsScreen", {postId: item.id})}
                 style={{}}
               >
                 <EvilIcons name="comment" size={24} color="#BDBDBD" />
               </TouchableOpacity>
 
-              <TouchableOpacity onPress={() => navigation.navigate("Map", {location: item.location})}>
+              <TouchableOpacity onPress={() => navigation.navigate("MapScreen", {location: item.location})}>
                 <EvilIcons name="location" size={24} color="#BDBDBD" />
               </TouchableOpacity>
             </View>

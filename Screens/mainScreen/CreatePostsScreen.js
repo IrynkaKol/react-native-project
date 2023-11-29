@@ -29,6 +29,7 @@ export const CreatePostsScreen = ({ navigation }) => {
   const [camera, setCamera] = useState(null);
   const [photo, setPhoto] = useState(null);
   const [namePost, setNamePost] = useState("");
+  const [isDisabledPublishBtn, setIsDisabledPublishBtn] = useState(false);
 
   const { userId, login } = useSelector((state) => state.auth);
 
@@ -46,6 +47,17 @@ export const CreatePostsScreen = ({ navigation }) => {
       setHasPermission(status === "granted");
     })();
   }, []);
+  useEffect(() => {
+    const disabled =
+      photo !== null &&
+      namePost !== "" &&
+      // convertedCoordinate !== null &&
+      location !== null
+        ? false
+        : true;
+
+    setIsDisabledPublishBtn(disabled);
+  }, [photo, namePost, location]);
 
   if (hasPermission === null) {
     return <View />;
@@ -123,10 +135,20 @@ export const CreatePostsScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <View style={{ marginBottom: 32 }}>
-        <View style={[styles.cameraIconContainer, { backgroundColor: photo ? "rgba(255, 255, 255, 0.30)" : "#fff" }, {borderColor: photo ? "rgba(255, 255, 255, 0.30)" : "#fff"}]}>
+        <View
+          style={[
+            styles.cameraIconContainer,
+            { backgroundColor: photo ? "rgba(255, 255, 255, 0.30)" : "#fff" },
+            { borderColor: photo ? "rgba(255, 255, 255, 0.30)" : "#fff" },
+          ]}
+        >
           <View style={{ position: "absolute", top: 18, right: 18 }}>
             <TouchableOpacity onPress={openCamera}>
-              <MaterialIcons name="photo-camera" size={24} color={photo ? "#fff" : "#BDBDBD"} />
+              <MaterialIcons
+                name="photo-camera"
+                size={24}
+                color={photo ? "#fff" : "#BDBDBD"}
+              />
             </TouchableOpacity>
           </View>
         </View>
@@ -182,13 +204,41 @@ export const CreatePostsScreen = ({ navigation }) => {
           value={namePost.trimStart()}
           onChangeText={setNamePost}
         />
-        <View style={{ flexDirection: "row", alignItems: "center" }}>
-          <EvilIcons name="location" size={24} color="black" />
+        <View
+          style={{
+            flexDirection: "row",
+            alignItems: "center",
+            borderBottomWidth: 1,
+            borderBottomColor: "#E8E8E8",
+          }}
+        >
+          <Feather
+            name="map-pin"
+            size={24}
+            color="#BDBDBD"
+            style={{ marginRight: 4 }}
+          />
           <TextInput style={styles.input} placeholder="Місцевість..." />
         </View>
       </View>
-      <TouchableOpacity onPress={sendPhoto} style={styles.publishedButton}>
-        <Text style={styles.publishedTitleButton}>Опубліковати</Text>
+      <TouchableOpacity
+        onPress={sendPhoto}
+        style={
+          isDisabledPublishBtn
+            ? { ...styles.publishedButton, backgroundColor: "#F6F6F6" }
+            : { ...styles.publishedButton, backgroundColor: "#FF6C00" }
+        }
+        disabled={isDisabledPublishBtn}
+      >
+        <Text
+          style={
+            isDisabledPublishBtn
+              ? { ...styles.publishedTitleButton, color: "#BDBDBD" }
+              : { ...styles.publishedTitleButton, color: "#FFFFFF" }
+          }
+        >
+          {location || !photo ? 'Опубліковати' : 'Завантаження...'}
+        </Text>
       </TouchableOpacity>
       <View
         style={{
@@ -265,7 +315,7 @@ const styles = StyleSheet.create({
     borderColor: "#E8E8E8",
   },
   publishedButton: {
-    backgroundColor: "#F6F6F6",
+    // backgroundColor: "#F6F6F6",
     borderRadius: 100,
     paddingVertical: 16,
     marginBottom: 16,
@@ -275,7 +325,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     lineHeight: 19,
     fontFamily: "Roboto-Regular",
-    color: "#BDBDBD",
+    // color: "#BDBDBD",
     textAlign: "center",
   },
   buttonDelete: {

@@ -9,7 +9,7 @@ import {
   Button,
   TouchableOpacity,
 } from "react-native";
-import { EvilIcons } from "@expo/vector-icons";
+import { EvilIcons, Feather } from "@expo/vector-icons";
 import { useAuth } from '../../hooks/useAuth';
 import {db, storage} from "../../firebase/config";
 import { doc, collection, onSnapshot } from "firebase/firestore";
@@ -62,7 +62,14 @@ export const DefaultPostsScreen = ({ route, navigation }) => {
       <FlatList
         data={posts}
         keyExtractor={(item, indx) => indx.toString()}
-        renderItem={({ item }) => (
+        renderItem={({ item: {
+          id,
+          photo,
+          namePost,
+          location,
+          convertedCoordinate: { region, country },
+          commentsCount,
+        }, }) => (
           <View
             style={{
               marginBottom: 10,
@@ -73,7 +80,7 @@ export const DefaultPostsScreen = ({ route, navigation }) => {
             }}
           >
             <Image
-              source={{ uri: item.photo }}
+              source={{ uri: photo }}
               style={{
                 width: 343,
                 height: 240,
@@ -83,7 +90,7 @@ export const DefaultPostsScreen = ({ route, navigation }) => {
               }}
             />
             <View>
-              <Text>{item.namePost}</Text>
+              <Text>{namePost}</Text>
             </View>
             <View
               style={{
@@ -95,14 +102,18 @@ export const DefaultPostsScreen = ({ route, navigation }) => {
               }}
             >
               <TouchableOpacity
-                onPress={() => navigation.navigate("CommentsScreen", {postId: item.id})}
+                onPress={() => navigation.navigate("CommentsScreen", {postId: id, photo})}
                 style={{}}
               >
-                <EvilIcons name="comment" size={24} color="#BDBDBD" />
+                <Feather name="message-circle" size={24} color="#BDBDBD" />
+                
               </TouchableOpacity>
 
-              <TouchableOpacity onPress={() => navigation.navigate("MapScreen", {location: item.location})}>
-                <EvilIcons name="location" size={24} color="#BDBDBD" />
+              <TouchableOpacity onPress={() => navigation.navigate("MapScreen", {photo,
+                      namePost,
+                      location,})}>
+              <Feather name="map-pin" size={24} color="black" />
+              <Text style={[{ ...styles.text, ...styles.locationText }]}>{`${region}, ${country}`}</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -137,5 +148,13 @@ const styles = StyleSheet.create({
   profileEmail: {
     fontFamily: 'Roboto-Regular',
     fontSize: 11,
+  },
+  text: {
+    fontSize: 16,
+    color: '#212121',
+  },
+  locationText: {
+    fontFamily: 'Roboto-Regular',
+    textDecorationLine: 'underline',
   },
 });

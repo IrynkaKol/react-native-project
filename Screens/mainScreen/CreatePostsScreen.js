@@ -16,10 +16,11 @@ import * as MediaLibrary from "expo-media-library";
 import * as ImagePicker from "expo-image-picker";
 import * as Location from "expo-location";
 
-import { EvilIcons, MaterialIcons, Feather } from "@expo/vector-icons";
+import { MaterialIcons, Feather } from "@expo/vector-icons";
 
 import { db, storage } from "../../firebase/config";
 import { addDoc, collection } from "firebase/firestore";
+import {uploadPhotoToServer} from "../../redux/post/postOperations"
 import { useAuth } from "../../hooks/useAuth";
 
 export const CreatePostsScreen = ({ navigation }) => {
@@ -31,7 +32,10 @@ export const CreatePostsScreen = ({ navigation }) => {
   const [namePost, setNamePost] = useState("");
   const [isDisabledPublishBtn, setIsDisabledPublishBtn] = useState(false);
 
-  const { userId, login } = useSelector((state) => state.auth);
+  // const { userId, login } = useSelector((state) => state.auth);
+  const {
+    authState: { userId },
+  } = useAuth();
 
   useEffect(() => {
     (async () => {
@@ -71,6 +75,17 @@ export const CreatePostsScreen = ({ navigation }) => {
     if (!result.canceled && result.assets.length > 0) {
       await MediaLibrary.createAssetAsync(result.assets[0].uri);
       setPhoto(result.assets[0].uri);
+
+      const { coords } = await Location.getCurrentPositionAsync();
+      setLocation(coords);
+      const address = await Location.reverseGeocodeAsync({
+        latitude: coords.latitude,
+        longitude: coords.longitude,
+      });
+
+      const { region, country } = address[0];
+
+      setConvertedCoordinate({ region, country });
     }
   };
 
@@ -81,6 +96,17 @@ export const CreatePostsScreen = ({ navigation }) => {
     });
     if (!galleryResult.canceled && galleryResult.assets.length > 0) {
       setPhoto(galleryResult.assets[0].uri);
+      const { coords } = await Location.getCurrentPositionAsync();
+      setLocation(coords);
+
+      const address = await Location.reverseGeocodeAsync({
+        latitude: coords.latitude,
+        longitude: coords.longitude,
+      });
+
+      const { region, country } = address[0];
+
+      setConvertedCoordinate({ region, country });
     }
   };
 
@@ -96,9 +122,15 @@ export const CreatePostsScreen = ({ navigation }) => {
   // };
 
   const sendPhoto = () => {
-    uploadPostToServer();
-    navigation.navigate("DefaultPostsScreen", { photo });
-    // console.log("navigation", navigation);
+    if (location) {
+      uploadPostToServer(photo);
+      navigation.navigate("DefaultPostsScreen", { photo });
+      // console.log("navigation", navigation);
+      setPhoto(null);
+      setNamePost("");
+      setLocation(null);
+      setConvertedCoordinate(null);
+    }
   };
 
   const uploadPostToServer = async () => {
@@ -107,16 +139,19 @@ export const CreatePostsScreen = ({ navigation }) => {
     const createPost = await addDoc(collection(db, "posts"), {
       photo: processedPhoto,
       namePost,
-      location: location.coords,
+      location,
+      // location: location.coords,
+      convertedCoordinate,
       userId,
-      login,
+      // login,
     });
     navigation.navigate("DefaultPostsScreen");
     console.log("Document written with ID: ", createPost.id);
   };
 
   const uploadPhotoToServer = async () => {
-    const response = await fetch(photo);
+    try {
+      const response = await fetch(photo);
     const file = await response.blob(); // https://firebase.google.com/docs/storage/web/download-files
     const uniquePostId = Date.now().toString();
 
@@ -130,6 +165,10 @@ export const CreatePostsScreen = ({ navigation }) => {
       ref(storage, `postImage/${uniquePostId}`)
     );
     return processedPhoto;
+    } catch (error) {
+      console.log(error);
+    }
+    
   };
 
   return (
@@ -218,7 +257,15 @@ export const CreatePostsScreen = ({ navigation }) => {
             color="#BDBDBD"
             style={{ marginRight: 4 }}
           />
-          <TextInput style={styles.input} placeholder="Місцевість..." />
+          <TextInput
+            style={styles.input}
+            placeholder="Місцевість..."
+            value={
+              convertedCoordinate
+                ? `${convertedCoordinate.region}, ${convertedCoordinate.country}`
+                : null
+            }
+          />
         </View>
       </View>
       <TouchableOpacity
@@ -237,7 +284,7 @@ export const CreatePostsScreen = ({ navigation }) => {
               : { ...styles.publishedTitleButton, color: "#FFFFFF" }
           }
         >
-          {location || !photo ? 'Опубліковати' : 'Завантаження...'}
+          {location || !photo ? "Опубліковати" : "Завантаження..."}
         </Text>
       </TouchableOpacity>
       <View
@@ -249,7 +296,7 @@ export const CreatePostsScreen = ({ navigation }) => {
         <TouchableOpacity
           style={styles.buttonDelete}
           onPress={() => {
-            setCapturedPhoto(null);
+            setPhoto(null);
             setNamePost("");
             setConvertedCoordinate(null);
             console.log("Delete");
@@ -315,7 +362,6 @@ const styles = StyleSheet.create({
     borderColor: "#E8E8E8",
   },
   publishedButton: {
-    // backgroundColor: "#F6F6F6",
     borderRadius: 100,
     paddingVertical: 16,
     marginBottom: 16,
@@ -325,7 +371,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     lineHeight: 19,
     fontFamily: "Roboto-Regular",
-    // color: "#BDBDBD",
+
     textAlign: "center",
   },
   buttonDelete: {

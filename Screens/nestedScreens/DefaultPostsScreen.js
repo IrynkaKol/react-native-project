@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useSelector } from 'react-redux';
+import { useSelector } from "react-redux";
 import {
   View,
   Text,
@@ -10,46 +10,42 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { EvilIcons, Feather } from "@expo/vector-icons";
-import { useAuth } from '../../hooks/useAuth';
-import {db, storage} from "../../firebase/config";
+import { useAuth } from "../../hooks/useAuth";
+import { db, storage } from "../../firebase/config";
 import { doc, collection, onSnapshot } from "firebase/firestore";
-
-// const Tab = createBottomTabNavigator();
 
 export const DefaultPostsScreen = ({ route, navigation }) => {
   const [posts, setPosts] = useState([]);
 
-
   const { authState } = useAuth();
- 
- 
 
   const getAllPosts = async () => {
-   await onSnapshot(collection(db, "posts"), (snapshot) => {
-      const postsData = snapshot.docs.map((doc) => ({
-        ...doc.data(),
-        id: doc.id,
-        
-      }));
-       // console.log("postsData", postsData); // Перевірка отриманих даних
+    await onSnapshot(collection(db, "posts"), (snapshot) => {
+      const postsData = snapshot.docs.map((doc) => {
+        const data = doc.data();
+        return {
+          ...data,
+          id: doc.id,
+          commentsCount: data.comments ? data.comments.length : 0,
+        };
+      });
       setPosts(postsData);
     });
-   
-    };
-  
+  };
 
   useEffect(() => {
     getAllPosts();
     // if (route.params) {
     //   setPosts((prevState) => [...prevState, route.params]);
     // }
+    
   }, []);
   //}, [route.params]);
   // console.log("posts", posts);
 
   return (
     <View style={styles.container}>
-       <View style={styles.profileContainer}>
+      <View style={styles.profileContainer}>
         <Image
           style={styles.profileImages}
           source={{ uri: authState.photoURL }}
@@ -62,14 +58,16 @@ export const DefaultPostsScreen = ({ route, navigation }) => {
       <FlatList
         data={posts}
         keyExtractor={(item, indx) => indx.toString()}
-        renderItem={({ item: {
-          id,
-          photo,
-          namePost,
-          location,
-          convertedCoordinate: { region, country },
-          commentsCount,
-        }, }) => (
+        renderItem={({
+          item: {
+            id,
+            photo,
+            namePost,
+            location,
+            convertedCoordinate: { region, country },
+            commentsCount,
+          },
+        }) => (
           <View
             style={{
               marginBottom: 10,
@@ -102,18 +100,39 @@ export const DefaultPostsScreen = ({ route, navigation }) => {
               }}
             >
               <TouchableOpacity
-                onPress={() => navigation.navigate("CommentsScreen", {postId: id, photo})}
-                style={{}}
+                onPress={() =>
+                  navigation.navigate("CommentsScreen", { postId: id, photo })
+                }
+                style={styles.info}
               >
-                <Feather name="message-circle" size={24} color="#BDBDBD" />
-                
+                <Feather name="message-circle" size={24} color="#BDBDBD" style={[
+                      { transform: [{ rotate: '-90deg' }] },
+                      commentsCount
+                        ? { backgroundColor: '#FF6C00', color: '#FFFFFF' }
+                        : { backgroundColor: 'transparent', color: '#BDBDBD' },
+                    ]}/>
+                <Text style={[
+                      styles.textComment,
+                      commentsCount
+                        ? { color: '#212121' }
+                        : { color: '#BDBDBD' },
+                    ]}>{commentsCount}</Text>
               </TouchableOpacity>
 
-              <TouchableOpacity style={styles.info} onPress={() => navigation.navigate("MapScreen", {photo,
-                      namePost,
-                      location,})}>
-              <Feather name="map-pin" size={24} color="#BDBDBD" />
-              <Text style={[{ ...styles.text, ...styles.locationText }]}>{`${region}, ${country}`}</Text>
+              <TouchableOpacity
+                style={styles.info}
+                onPress={() =>
+                  navigation.navigate("MapScreen", {
+                    photo,
+                    namePost,
+                    location,
+                  })
+                }
+              >
+                <Feather name="map-pin" size={24} color="#BDBDBD" />
+                <Text
+                  style={[{ ...styles.text, ...styles.locationText }]}
+                >{`${region}, ${country}`}</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -132,8 +151,8 @@ const styles = StyleSheet.create({
     marginTop: 32,
     marginBottom: 32,
     paddingHorizontal: 16,
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
   },
   profileImages: {
     width: 60,
@@ -142,24 +161,24 @@ const styles = StyleSheet.create({
     marginRight: 8,
   },
   profileName: {
-    fontFamily: 'Roboto-Medium',
+    fontFamily: "Roboto-Medium",
     fontSize: 13,
   },
   profileEmail: {
-    fontFamily: 'Roboto-Regular',
+    fontFamily: "Roboto-Regular",
     fontSize: 11,
   },
   text: {
     fontSize: 16,
-    color: '#212121',
+    color: "#212121",
   },
   locationText: {
-    fontFamily: 'Roboto-Regular',
-    textDecorationLine: 'underline',
+    fontFamily: "Roboto-Regular",
+    textDecorationLine: "underline",
   },
   info: {
-    flexDirection: 'row',
+    flexDirection: "row",
     gap: 5,
-    alignItems: 'center',
+    alignItems: "center",
   },
 });

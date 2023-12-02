@@ -1,7 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useLayoutEffect } from "react";
+import { useAuth } from "../../hooks/useAuth";
 
 import {
   View,
+  Image,
   Text,
   StyleSheet,
   TouchableOpacity,
@@ -12,43 +14,69 @@ import {
 import {
   collection,
   addDoc,
-  getDocs,
+  getDoc,
+  updateDoc,
+  arrayUnion,
   onSnapshot,
   doc,
   query,
   orderBy,
 } from "firebase/firestore";
 import { AntDesign } from "@expo/vector-icons";
-import { db } from "../../firebase/config";
+import { db} from "../../firebase/config";
 import { useSelector } from "react-redux";
+import { commentDate } from "../../utils/commentDate";
 
-export const CommentsScreen = ({ route }) => {
+export const CommentsScreen = ({ route, navigation, setTabBarStyle }) => {
   // із route дістаємо із HOME  id item
-  const { postId } = route.params;
+  const { postId, photo } = route.params;
   const [comment, setComment] = useState("");
   const [allComments, setAllComments] = useState([]);
-  const { login } = useSelector((state) => state.auth);
+
+  const {
+    authState: { login, photoURL, userId },
+  } = useAuth();
 
   useEffect(() => {
     getAllPosts();
   }, []);
 
-  const createPost = async () => {
-    const postRef = doc(db, "posts", postId);
-    const commentsCollectionRef = collection(postRef, "comments");
+  useLayoutEffect(() => {
+    setTabBarStyle("none");
 
-    const commentRef = await addDoc(commentsCollectionRef, {
-      comment,
-      login,
+    return () => {
+      setTabBarStyle("flex");
+    };
+  }, []);
+
+  const createPost = async (postId, commentData) => {
+    try {
+      const postRef = doc(db, "posts", postId);
+      const commentsCollectionRef = collection(postRef, "comments");
+
+      await addDoc(commentsCollectionRef, {
+        ...commentData,
+      });
+      const postDoc = await getDoc(postRef);
+    const postComments = postDoc.data().comments || [];
+    await updateDoc(postRef, {
+      comments: arrayUnion(commentData), 
+      commentsCount: postComments.length + 1,
     });
-    // console.log('commentRef', commentRef)
+
+    
+      return true;
+    } catch (error) {
+      console.error("Error creating post:", error);
+    return false;
+    }
   };
 
   const getAllPosts = async () => {
     const postRef = doc(db, "posts", postId);
 
     onSnapshot(
-      query(collection(postRef, "comments"), orderBy("login")),
+      query(collection(postRef, "comments"), orderBy("commentDate")),
       (snapshot) =>
         setAllComments(
           snapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
@@ -58,25 +86,67 @@ export const CommentsScreen = ({ route }) => {
 
   return (
     <View style={styles.container}>
-      <SafeAreaView style={styles.infoUserCommentThumb}>
-        <FlatList
-          data={allComments}
-          renderItem={({ item }) => (
-            <View style={[styles.infoComment]}>
-              <Text>{item.login}</Text>
+      <Image source={{ uri: photo }} style={styles.image} />
+      {/* <SafeAreaView style={styles.infoUserCommentThumb}> */}
+      <FlatList
+        data={allComments}
+        renderItem={({ item }) => (
+          <View
+            style={
+              userId === item.userId
+                ? styles.infoUserCommentThumb
+                : styles.infoCommentThumb
+            }
+            // style={[styles.infoComment]}
+          >
+            <Image
+              source={{ uri: item.photoURL }}
+              style={{ width: 28, height: 28, borderRadius: 28 }}
+            />
+            <View
+              style={[
+                styles.infoComment,
+                userId === item.userId
+                  ? { borderTopRightRadius: 0 }
+                  : { borderTopLeftRadius: 0 },
+              ]}
+            >
               <Text style={styles.commentText}>{item.comment}</Text>
+              <Text
+                style={[
+                  styles.commentDate,
+                  userId === item.userId
+                    ? { textAlign: "left" }
+                    : { textAlign: "right" },
+                ]}
+              >
+                {item.commentDate}
+              </Text>
             </View>
-          )}
-          keyExtractor={(item) => item.id}
-        />
-      </SafeAreaView>
+          </View>
+        )}
+        keyExtractor={(item) => item.id}
+      />
+      {/* </SafeAreaView> */}
       <View style={styles.inputWrapper}>
         <TextInput
           style={styles.inputComment}
           placeholder="Коментувати..."
+          value={comment}
           onChangeText={setComment}
         />
-        <TouchableOpacity style={styles.sendComment} onPress={createPost}>
+        <TouchableOpacity style={styles.sendComment} onPress={() => {
+          if(comment !== "") {
+            createPost(postId, {
+              userId, login,
+              photoURL,
+              comment,
+              commentDate: commentDate(Date.now()),
+            });
+            setComment("")
+          }
+        }}>
+          
           <AntDesign
             name="arrowup"
             size={26}
@@ -98,8 +168,18 @@ const styles = StyleSheet.create({
     marginBottom: 16,
     paddingHorizontal: 16,
   },
+  image: {
+    height: 240,
+    marginBottom: 32,
+    borderRadius: 8,
+  },
   infoUserCommentThumb: {
     flexDirection: "row-reverse",
+    gap: 16,
+    marginBottom: 24,
+  },
+  infoCommentThumb: {
+    flexDirection: "row",
     gap: 16,
     marginBottom: 24,
   },
@@ -110,6 +190,12 @@ const styles = StyleSheet.create({
     lineHeight: 18,
     color: "#212121",
   },
+  commentDate: {
+    fontFamily: "Roboto-Regular",
+    fontSize: 10,
+    color: "#BDBDBD",
+    textAlign: "right",
+  },
   inputWrapper: {
     position: "relative",
   },
@@ -118,8 +204,8 @@ const styles = StyleSheet.create({
     height: "auto",
     padding: 16,
     borderRadius: 6,
-    borderWidth: 1,
-    borderColor: "#20b2AA",
+    // borderWidth: 1,
+    // borderColor: "#20b2AA",
     backgroundColor: "rgba(0, 0, 0, 0.03)",
   },
   inputComment: {

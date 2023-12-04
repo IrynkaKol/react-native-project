@@ -87,6 +87,9 @@ export const DefaultPostsScreen = ({ route, navigation }) => {
                 borderRadius: 8,
               }}
             />
+            <TouchableOpacity>
+            <Feather name="thumbs-up" size={24} color="black" />
+            </TouchableOpacity>
             <View>
               <Text>{namePost}</Text>
             </View>
@@ -108,8 +111,8 @@ export const DefaultPostsScreen = ({ route, navigation }) => {
                 <Feather name="message-circle" size={24} color="#BDBDBD" style={[
                       { transform: [{ rotate: '-90deg' }] },
                       commentsCount
-                        ? { backgroundColor: '#FF6C00', color: '#FFFFFF' }
-                        : { backgroundColor: 'transparent', color: '#BDBDBD' },
+                        ? { color: '#FF6C00' }
+                        : { color: '#BDBDBD' },
                     ]}/>
                 <Text style={[
                       styles.textComment,

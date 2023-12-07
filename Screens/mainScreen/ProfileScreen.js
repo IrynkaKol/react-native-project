@@ -8,7 +8,6 @@ import {
   FlatList,
   Image,
   ImageBackground,
-  
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { db } from "../../firebase/config";
@@ -23,19 +22,19 @@ import {
 import * as ImagePicker from "expo-image-picker";
 import backgroundImage from "../../assets/images/background.png";
 import { ImageViewer } from "../../components/ImageViewer";
-import { Feather} from "@expo/vector-icons";
+import { Feather } from "@expo/vector-icons";
 import { useAuth } from "../../hooks/useAuth";
 import {
   authSignOutUser,
   uploadAvatarToServer,
-  removeUserAvatar
-  
+  removeUserAvatar,
 } from "../../redux/auth/authOperations";
 
 export const ProfileScreen = ({ route, navigation }) => {
   const dispatch = useDispatch();
   const [userPosts, setUserPosts] = useState([]);
-  
+  const [likesCount, setLikesCount] = useState({});
+
   // const { userId } = useSelector((state) => state.auth);
 
   const { height, width } = useWindowDimensions();
@@ -55,9 +54,7 @@ export const ProfileScreen = ({ route, navigation }) => {
       const photoURL = await uploadAvatarToServer(result.assets[0].uri);
       // setState((prev) => ({ ...prev, photoURL }));
       // setSelectedImage(result.assets[0].uri);
-      dispatch(
-      removeUserAvatar(photoURL))
-
+      dispatch(removeUserAvatar(photoURL));
     } else {
       alert("You did not select any image.");
     }
@@ -100,6 +97,23 @@ export const ProfileScreen = ({ route, navigation }) => {
     });
   };
 
+  const getLikesCount = async () => {
+    const likesCountData = {};
+    await Promise.all(
+      userPosts.map(async (post) => {
+        const postRef = doc(db, "posts", post.id);
+        const postSnapshot = await getDoc(postRef);
+        const currentLikesCount = postSnapshot.data().likesCount || 0;
+        likesCountData[post.id] = currentLikesCount;
+      })
+    );
+    setLikesCount(likesCountData);
+  };
+
+  useEffect(() => {
+    getLikesCount();
+  }, [userPosts]);
+
   const handleSignOut = () => {
     dispatch(authSignOutUser());
   };
@@ -139,6 +153,7 @@ export const ProfileScreen = ({ route, navigation }) => {
                   location,
                   convertedCoordinate: { region, country },
                   commentsCount,
+                  likes,
                 },
               }) => {
                 return (
@@ -200,6 +215,13 @@ export const ProfileScreen = ({ route, navigation }) => {
                           {commentsCount}
                         </Text>
                       </TouchableOpacity>
+                      <TouchableOpacity style={styles.info}>
+                        <Feather name="thumbs-up" size={24} color="#BDBDBD" />
+                        <Text style={styles.textComment}>
+                          {likesCount[id] || 0}
+                        </Text>
+                      </TouchableOpacity>
+
                       <TouchableOpacity
                         style={styles.info}
                         onPress={() => {

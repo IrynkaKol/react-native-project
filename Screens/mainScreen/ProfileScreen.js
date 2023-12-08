@@ -94,6 +94,12 @@ export const ProfileScreen = ({ route, navigation }) => {
       const postUser = querySnapshot.docs.map((doc) => doc.data());
       setUserPosts(postUser);
       console.log(postUser); // Вивід даних в консоль
+
+      // const likesInfo = {};
+      //  postUser.forEach((post) => {
+      //   likesInfo[post.id] = post.likes ? post.likes.length : 0;
+      // });
+      // setLikesCount(likesInfo);
     });
   };
 
@@ -102,6 +108,7 @@ export const ProfileScreen = ({ route, navigation }) => {
   const handleSignOut = () => {
     dispatch(authSignOutUser());
   };
+  
 
   return (
     <>
@@ -140,7 +147,7 @@ export const ProfileScreen = ({ route, navigation }) => {
                   commentsCount,
                   likes,
                 },
-              }) => {
+              }) => { 
                 return (
                   <View style={styles.subContainer}>
                     <View
@@ -201,9 +208,9 @@ export const ProfileScreen = ({ route, navigation }) => {
                         </Text>
                       </TouchableOpacity>
                       <TouchableOpacity style={styles.info}>
-                        <Feather name="thumbs-up" size={24} color="#BDBDBD" />
-                        <Text style={styles.textComment}>
-                          0
+                        <Feather name="thumbs-up" size={24} color={likes ? "#FF6C00" : "#BDBDBD"} />
+                        <Text style={[styles.textComment, likes ? { color: "#212121" } : { color: "#BDBDBD" }]}>
+                        {likes}
                         </Text>
                       </TouchableOpacity>
 
@@ -277,6 +284,7 @@ const styles = StyleSheet.create({
   infoThumb: {
     flexDirection: "row",
     justifyContent: "space-between",
+    
   },
   info: {
     flexDirection: "row",

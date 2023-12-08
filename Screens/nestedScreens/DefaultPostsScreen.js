@@ -12,10 +12,12 @@ import {
 import { EvilIcons, Feather } from "@expo/vector-icons";
 import { useAuth } from "../../hooks/useAuth";
 import { db, storage } from "../../firebase/config";
-import { doc, collection, onSnapshot } from "firebase/firestore";
+import { doc, collection, onSnapshot, updateDoc } from "firebase/firestore";
 
 export const DefaultPostsScreen = ({ route, navigation }) => {
   const [posts, setPosts] = useState([]);
+  const [likesCount, setLikesCount] = useState({});
+  const [likedByCurrentUser, setLikedByCurrentUser] = useState({});
 
   const { authState } = useAuth();
 
@@ -27,8 +29,21 @@ export const DefaultPostsScreen = ({ route, navigation }) => {
           ...data,
           id: doc.id,
           commentsCount: data.comments ? data.comments.length : 0,
+          likesCount: data.likes || 0,
+          likedByCurrentUser: data.likedByCurrentUser || false,
         };
       });
+      const likesInfo = {};
+      const likedByCurrentUserInfo = {};
+
+      postsData.forEach((post) => {
+        likesInfo[post.id] = post.likesCount;
+        likedByCurrentUserInfo[post.id] = post.likedByCurrentUser;
+      });
+
+      setLikesCount(likesInfo);
+      setLikedByCurrentUser(likedByCurrentUserInfo);
+
       setPosts(postsData);
     });
   };
@@ -38,11 +53,46 @@ export const DefaultPostsScreen = ({ route, navigation }) => {
     // if (route.params) {
     //   setPosts((prevState) => [...prevState, route.params]);
     // }
-    
   }, []);
   //}, [route.params]);
   // console.log("posts", posts);
 
+  const handleLikePress = async (postId) => {
+    if (!likedByCurrentUser[postId]) {
+      const updatedLikesCount = likesCount[postId] + 1;
+      setLikesCount((prevLikes) => ({
+        ...prevLikes,
+        [postId]: updatedLikesCount,
+      }));
+      setLikedByCurrentUser((prevLikedByCurrentUser) => ({
+        ...prevLikedByCurrentUser,
+        [postId]: true,
+      }));
+      const updatedPostData = {
+        likes: updatedLikesCount,
+        likedByCurrentUser: true,
+      };
+
+      await updateDoc(doc(db, "posts", postId), updatedPostData);
+    } else {
+      const updatedLikesCount = likesCount[postId] - 1;
+      setLikesCount((prevLikes) => ({
+        ...prevLikes,
+        [postId]: updatedLikesCount,
+      }));
+      setLikedByCurrentUser((prevLikedByCurrentUser) => ({
+        ...prevLikedByCurrentUser,
+        [postId]: false,
+      }));
+
+      const updatedPostData = {
+        likes: updatedLikesCount,
+        likedByCurrentUser: false,
+      };
+      await updateDoc(doc(db, "posts", postId), updatedPostData);
+    }
+
+  };
   return (
     <View style={styles.container}>
       <View style={styles.profileContainer}>
@@ -87,7 +137,7 @@ export const DefaultPostsScreen = ({ route, navigation }) => {
                 borderRadius: 8,
               }}
             />
-            
+
             <View>
               <Text>{namePost}</Text>
             </View>
@@ -97,7 +147,7 @@ export const DefaultPostsScreen = ({ route, navigation }) => {
                 flexDirection: "row",
                 alignItems: "center",
                 justifyContent: "flex-start",
-                gap: 5 ,
+                gap: 10,
               }}
             >
               <TouchableOpacity
@@ -106,24 +156,38 @@ export const DefaultPostsScreen = ({ route, navigation }) => {
                 }
                 style={styles.info}
               >
-                <Feather name="message-circle" size={24} color="#BDBDBD" style={[
-                      { transform: [{ rotate: '-90deg' }] },
-                      commentsCount
-                        ? { color: '#FF6C00' }
-                        : { color: '#BDBDBD' },
-                    ]}/>
-                <Text style={[
-                      styles.textComment,
-                      commentsCount
-                        ? { color: '#212121' }
-                        : { color: '#BDBDBD' },
-                    ]}>{commentsCount}</Text>
+                <Feather
+                  name="message-circle"
+                  size={24}
+                  color="#BDBDBD"
+                  style={[
+                    { transform: [{ rotate: "-90deg" }] },
+                    commentsCount ? { color: "#FF6C00" } : { color: "#BDBDBD" },
+                  ]}
+                />
+                <Text
+                  style={[
+                    styles.textComment,
+                    commentsCount ? { color: "#212121" } : { color: "#BDBDBD" },
+                  ]}
+                >
+                  {commentsCount}
+                </Text>
               </TouchableOpacity>
 
-              <TouchableOpacity style={styles.info}>
-            <Feather name="thumbs-up" size={24} color="#BDBDBD" />
-            <Text style={styles.textComment}>0</Text>
-            </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.info}
+                onPress={() => handleLikePress(id)}
+              >
+                <Feather
+                  name="thumbs-up"
+                  size={24}
+                  color={likesCount[id] > 0 ? "#FF6C00" : "#BDBDBD"}
+                />
+                <Text style={[styles.textComment, likesCount[id] ? { color: "#212121" } : { color: "#BDBDBD" },]}>
+                  {likesCount[id] > 0 ? likesCount[id] : 0}
+                </Text>
+              </TouchableOpacity>
 
               <TouchableOpacity
                 style={styles.info}

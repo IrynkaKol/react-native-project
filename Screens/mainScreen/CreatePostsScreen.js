@@ -184,10 +184,9 @@ export const CreatePostsScreen = ({ navigation }) => {
       photo: processedPhoto,
       namePost,
       location,
-      // location: location.coords,
       convertedCoordinate,
       userId,
-      // login,
+      
     });
     navigation.navigate("DefaultPostsScreen");
     console.log("Document written with ID: ", createPost.id);

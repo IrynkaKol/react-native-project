@@ -87,9 +87,7 @@ export const DefaultPostsScreen = ({ route, navigation }) => {
                 borderRadius: 8,
               }}
             />
-            <TouchableOpacity>
-            <Feather name="thumbs-up" size={24} color="black" />
-            </TouchableOpacity>
+            
             <View>
               <Text>{namePost}</Text>
             </View>
@@ -99,7 +97,7 @@ export const DefaultPostsScreen = ({ route, navigation }) => {
                 flexDirection: "row",
                 alignItems: "center",
                 justifyContent: "flex-start",
-                gap: 50,
+                gap: 5 ,
               }}
             >
               <TouchableOpacity
@@ -121,6 +119,11 @@ export const DefaultPostsScreen = ({ route, navigation }) => {
                         : { color: '#BDBDBD' },
                     ]}>{commentsCount}</Text>
               </TouchableOpacity>
+
+              <TouchableOpacity style={styles.info}>
+            <Feather name="thumbs-up" size={24} color="#BDBDBD" />
+            <Text style={styles.textComment}>0</Text>
+            </TouchableOpacity>
 
               <TouchableOpacity
                 style={styles.info}

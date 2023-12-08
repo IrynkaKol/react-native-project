@@ -97,22 +97,7 @@ export const ProfileScreen = ({ route, navigation }) => {
     });
   };
 
-  const getLikesCount = async () => {
-    const likesCountData = {};
-    await Promise.all(
-      userPosts.map(async (post) => {
-        const postRef = doc(db, "posts", post.id);
-        const postSnapshot = await getDoc(postRef);
-        const currentLikesCount = postSnapshot.data().likesCount || 0;
-        likesCountData[post.id] = currentLikesCount;
-      })
-    );
-    setLikesCount(likesCountData);
-  };
-
-  useEffect(() => {
-    getLikesCount();
-  }, [userPosts]);
+  
 
   const handleSignOut = () => {
     dispatch(authSignOutUser());
@@ -218,7 +203,7 @@ export const ProfileScreen = ({ route, navigation }) => {
                       <TouchableOpacity style={styles.info}>
                         <Feather name="thumbs-up" size={24} color="#BDBDBD" />
                         <Text style={styles.textComment}>
-                          {likesCount[id] || 0}
+                          0
                         </Text>
                       </TouchableOpacity>
 

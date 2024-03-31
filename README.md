@@ -6,113 +6,113 @@
   <img src="https://github.com/IrynkaKol/react-native-project/blob/main/assets/colage.png" alt="MyCollages" />
 </div>
 
-## <div align=center>Завдання 1: Підготовка до роботи</div>
+## <div align=center>ask 1: Preparing for Work</div>
 
-1. Встановити `expo`
-2. Встановити `Android Studio`
-3. Встановити `Xcode` (якщо працюєте на Mac)
-4. Ініціалізувати проект за допомогою `expo` (Вибираємо шаблон проекту `blank`)
-5. Запустити проект
-6. Налаштувати `Android Studio`
-7. Налаштувати `Xcode` (якщо працюєте на Mac)
-8. Встановити `expo client` собі на телефон
-9. Запустити створений проект на телефоні, емуляторі `Android`, симуляторі `iOS` (якщо працюєте на Mac)
+1. Install `expo`
+2. Install `Android Studio`
+3. Install `Xcode` (if working on a Mac)
+4. Initialize the project using `expo` (Choose the`blank` project template)
+5. Run the project
+6. Configure `Android Studio`
+7. Configure `Xcode` (if working on a Mac)
+8. Install `expo client` on your phone
+9. Run the created project on your phone, `Android` emulator or `iOS` simulator (if working on a Mac)
 
 #
 
-## <div align=center>Завдання 2: Верстка екранів. Робота зі стилями. Дебаг</div>
+## <div align=center>Task 2: Screen Layout. Working with Styles. Debugging</div>
 
-1. Створити папку `Screens`
-2. Створити компонент `RegistrationScreen`
-3. Створити компонент `LoginScreen`
-4. Створити екран `PostsScreen`
-5. Додати розмітку форми в компонент `RegistrationScreen`
-6. Додати розмітку форми в компонент `LoginScreen`
-7. Додати стилі до компонента `RegistrationScreen`
-8. Додати стилі до компонента `LoginScreen`
+1. Create a `Screens` folder
+2. Create a `RegistrationScreen` component
+3. Create a `LoginScreen` component
+4. Create a `PostsScreen` screen
+5. Add form layout to the `RegistrationScreen` component
+6. Add form layout to the `LoginScreen` component
+7. Add styles to the `RegistrationScreen` component
+8. Add styles to the `LoginScreen` component
 
 ###
 
-- [Макет компонента RegistrationScreen](<https://www.figma.com/file/YqWLNarVE4x1zkXa6PYJfi/Homework-(Copy)-(Copy)?type=design&node-id=3-26>)
-- [Макет компонента LoginScreen](<https://www.figma.com/file/YqWLNarVE4x1zkXa6PYJfi/Homework-(Copy)-(Copy)?node-id=12-0&t=tkIKc4K19uOKNunb-0>)
+- [RegistrationScreen Component Layout](<https://www.figma.com/file/YqWLNarVE4x1zkXa6PYJfi/Homework-(Copy)-(Copy)?type=design&node-id=3-26>)
+- [LoginScreen Component Layout](<https://www.figma.com/file/YqWLNarVE4x1zkXa6PYJfi/Homework-(Copy)-(Copy)?node-id=12-0&t=tkIKc4K19uOKNunb-0>)
 
 #
 
-## <div align=center>Завдання 3: Обробка подій. Робота із текстовими інпутами та клавіатурою</div>
+## <div align=center>Task 3: Event Handling. Working with Text Inputs and Keyboard</div>
 
-- Додати логіку роботи з формою в компонент `RegistrationScreen`
-- Додати логіку роботи з формою в компонент `LoginScreen`
-- Під час сабміту форм збирати дані з них і виводити в консоль
-- Додати автозакриття клавіатури по кліку за межами форм (Використовуємо `Keyboard.dismiss`)
+- Add logic to work with the form in the `RegistrationScreen` component
+- Add logic to work with the form in the `LoginScreen` component
+- Collect data from the forms on submission and display it in the console
+- Add auto-dismissal of the keyboard on click outside the forms (use `Keyboard.dismiss`)
 
 #
 
-## <div align=center>Завдання 4: Навігація</div>
+## <div align=center>Task 4: Navigation</div>
 
-1. Створити екран `CreatePostsScreen`
-2. Створити екран `CommentsScreen`
-3. Створити екран `ProfileScreen`
-4. Створити екран `MapScreen`
-5. Створити екран `Home`
-6. Підключити в проект навігацію.
-7. Додати в проект переходи між екранами `LoginScreen`, `RegistrationScreen` за допомогою компонента `createStackNavigator`
-8. З `RegistrationScreen` можна перейти на `LoginScreen`, натиснувши на текст <b>Увійти</b>
-9. З `LoginScreen` можна перейти на `RegistrationScreen`, натиснувши на текст <b>Зареєструватися</b>
-10. Після сабміту в `LoginScreen`, `RegistrationScreen` перекидає на `Home`, де відразу показується екран `PostsScreen`
-11. Підключити нижню навігацію, використовуючи `createBottomTabNavigator`
-12. У нижній навігації створити 3 переходи.
-13. Клік по іконці №1 веде на екран `PostsScreen`
-14. Клік по іконці №2 веде на екран `CreatePostsScreen`
-15. Клік по іконці №3 веде на екран `ProfileScreen`
-16. В хедері на екрані `PostsScreen` додати іконку для `logout`
-17. Стилізувати нижню навігацію
+1. Create `CreatePostsScreen` screen
+2. Create `CommentsScreen` screen
+3. Create `ProfileScreen` screen
+4. Create `MapScreen` screen
+5. Create `Home` screen
+6. Connect navigation to the project
+7. Add transitions between screens `LoginScreen`, `RegistrationScreen` using`createStackNavigator` component
+8. From `RegistrationScreen` navigate to `LoginScreen`, by clicking on the text <b>Log In</b>
+9. From `LoginScreen` navigate to `RegistrationScreen`, by clicking on the text <b>Sing Up</b>
+10. After submission in `LoginScreen`, `RegistrationScreen` redirect to `Home`, where `PostsScreen` is immediately displayed
+11. Connect bottom navigation using`createBottomTabNavigator`
+12. Create 3 transitions in the bottom navigation.
+13. Clicking on icon №1 leads to `PostsScreen`
+14. Clicking on icon №2 leads to `CreatePostsScreen`
+15. Clicking on icon №3 leads to `ProfileScreen`
+16. Add an icon for `logout` in the header on the `PostsScreen`
+17. Style the bottom navigation.
 
 ###
 
-- [Макет компонента PostsScreen без контенту](<https://www.figma.com/file/YqWLNarVE4x1zkXa6PYJfi/Homework-(Copy)-(Copy)?node-id=12-47>)
-- [Макет компонента PostsScreen з постами](<https://www.figma.com/file/YqWLNarVE4x1zkXa6PYJfi/Homework-(Copy)-(Copy)?node-id=36-86&t=zLy5KtBgsPgUDWY3-0>)
-- [Макет компонента CreatePostsScreen при переході на компонент](<https://www.figma.com/file/YqWLNarVE4x1zkXa6PYJfi/Homework-(Copy)-(Copy)?node-id=36-13&t=4MUcNtbjSdtiKXV7-0>)
-- [Макет компонента ProfileScreen](<https://www.figma.com/file/YqWLNarVE4x1zkXa6PYJfi/Homework-(Copy)-(Copy)?node-id=36-13&t=kFkFeqKaLVknGboO-0>)
-- [Інтерактивний приклад навігації в застосунку](<https://www.figma.com/file/YqWLNarVE4x1zkXa6PYJfi/Homework-(Copy)-(Copy)?node-id=36-86&t=YKQMU635gnlpvN39-0>)
+- [МPostsScreen Component Layout without Content](<https://www.figma.com/file/YqWLNarVE4x1zkXa6PYJfi/Homework-(Copy)-(Copy)?node-id=12-47>)
+- [PostsScreen Component Layout with Posts](<https://www.figma.com/file/YqWLNarVE4x1zkXa6PYJfi/Homework-(Copy)-(Copy)?node-id=36-86&t=zLy5KtBgsPgUDWY3-0>)
+- [CreatePostsScreen Component Layout upon Component Transition](<https://www.figma.com/file/YqWLNarVE4x1zkXa6PYJfi/Homework-(Copy)-(Copy)?node-id=36-13&t=4MUcNtbjSdtiKXV7-0>)
+- [ProfileScreen Component Layout](<https://www.figma.com/file/YqWLNarVE4x1zkXa6PYJfi/Homework-(Copy)-(Copy)?node-id=36-13&t=kFkFeqKaLVknGboO-0>)
+- [Interactive Navigation Example in Application](<https://www.figma.com/file/YqWLNarVE4x1zkXa6PYJfi/Homework-(Copy)-(Copy)?node-id=36-86&t=YKQMU635gnlpvN39-0>)
 
 #
 
-## <div align=center>Завдання 5: Нативні компоненти</div>
+## <div align=center>Task 5: Native Components</div>
 
-1. Підключити камеру в компонент `CreatePostsScreen`;
-2. Під час відкриття екрану `CreatePostsScreen` активується камера і зображення з неї виводиться в блок з іконкою камери
-3. По кліку на іконку камери робиться знімок
-4. В інпут з плейсхолдером `Назва` можна додати назву фото
-5. В інпут з плейсхолдером `Місцевість` можна додати назву, де було зроблено знімок
-6. Додати визначення геолокації в момент створення посту при кліку на кнопку `Опублікувати`
-7. Після створення посту повинно перенаправляти на екран `PostsScreen`
-8. В компоненті окремого посту при кліку на іконку коментарів перекидає на екран `CommentsScreen`
-9. У компоненті окремого посту під час кліку на іконку геолокації перекидає на екран `MapScreen`, де можна побачити мапу з маркером, де була зроблена фотографія.
+1. Connect the camera to the `CreatePostsScreen` component
+2. When opening the `CreatePostsScreen` activate the camera, and display the image from it in a block with the camera icon.
+3. Clicking on the camera icon takes a snapshot
+4. Add a photo title to the input with the placeholder `Title`
+5. Add a location to the input with the placeholder`Location`, where the snapshot was taken
+6. Add location determination when creating a post by clicking the `Publish` button
+7. After creating a post, redirect to the `PostsScreen`
+8. When clicking on the comments icon in the individual post component, redirect to the `CommentsScreen`
+9. In the individual post component, when clicking on the location icon, redirect to the `MapScreen`, where you can see a map with a marker where the photo was taken
 
 ###
 
-- [Макет компонента CommentsScreen з коментарями](<https://www.figma.com/file/YqWLNarVE4x1zkXa6PYJfi/Homework-(Copy)-(Copy)?node-id=41-0&t=vDyJjIvhOk6v4uZ7-0>)
-- [Макет компонента CreatePostsScreen під час відкриття екрану](<https://www.figma.com/file/YqWLNarVE4x1zkXa6PYJfi/Homework-(Copy)-(Copy)?node-id=36-86&t=hdpZPYSLTyS7klkX-0>)
-- [Макет компонента CreatePostsScreen після зробленого фото](<https://www.figma.com/file/YqWLNarVE4x1zkXa6PYJfi/Homework-(Copy)-(Copy)?node-id=36-13&t=5kWIH0XRsJwnJfHy-0>)
-- [Макет компонента MapScreen](<https://www.figma.com/file/YqWLNarVE4x1zkXa6PYJfi/Homework-(Copy)-(Copy)?node-id=43-54&t=58UisgPOnMIySl1m-0>)
+- [CommentsScreen Component Layout with Comments](<https://www.figma.com/file/YqWLNarVE4x1zkXa6PYJfi/Homework-(Copy)-(Copy)?node-id=41-0&t=vDyJjIvhOk6v4uZ7-0>)
+- [CreatePostsScreen Component Layout upon Screen Opening](<https://www.figma.com/file/YqWLNarVE4x1zkXa6PYJfi/Homework-(Copy)-(Copy)?node-id=36-86&t=hdpZPYSLTyS7klkX-0>)
+- [CreatePostsScreen Component Layout after Taking a Photo](<https://www.figma.com/file/YqWLNarVE4x1zkXa6PYJfi/Homework-(Copy)-(Copy)?node-id=36-13&t=5kWIH0XRsJwnJfHy-0>)
+- [MapScreen Component Layout](<https://www.figma.com/file/YqWLNarVE4x1zkXa6PYJfi/Homework-(Copy)-(Copy)?node-id=43-54&t=58UisgPOnMIySl1m-0>)
 
 #
 
-## <div align=center>Завдання 6: Redux і Firebase</div>
+## <div align=center>Task 6: Redux and Firebase</div>
 
-1. Підключити `Redux` до проекту
-2. Підключити `Firebase` до проекту
-3. Додати логіку реєстрації на екрані `RegistrationScreen` через методи `Firebase`
-4. Додати логіку логіна на екрані `LoginScreen` через методи `Firebase`
-5. Оновити профіль користувача на `Firebase` та додати туди логін у поле `displayName` після реєстрації
-6. Зберігати дані про користувача в `Redux` після реєстрації або логінізації
-7. Додати перевірку, чи залогінений користувач у застосунку чи ні. Якщо залогінений, то відразу перенаправляти на екран `PostsScreen`, інакше - на екран `LoginScreen`
-8. Додати логіку `Logout` на екрані `PostsScreen` під час натискання на іконку в хедері, використовуючи методи `Firebase`
-9. Додати логіку завантаження постів у базу даних, використовуючи `Firebase` та `Redux`
-10. Додати логіку додавання коментаря під постом, використовуючи `Firebase` та `Redux`
+1. Connect `Redux` to the project
+2. Connect `Firebase` to the project
+   3.Add registration logic on the `RegistrationScreen` through `Firebase` methods
+3. Add login logic on the `LoginScreen` using `Firebase` methods
+4. ОUpdate the user profile on `Firebase` and add the login to the `displayName` field after registration
+5. Store user data in `Redux` after registration or login
+6. Add a check to see if the user is logged into the application. If logged in, redirect to the `PostsScreen`, otherwise, redirect to the `LoginScreen`
+7. Add `Logout` logic on the `PostsScreen` when the icon in the header is clicked, using `Firebase` methods
+8. Add logic to load posts into the database using `Firebase` and `Redux`
+9. Add logic to add a comment under a post using `Firebase` and `Redux`
 
 #
 
-## <div align=center>Завдання 7: Деплой на сервери expo</div>
+## <div align=center>Task 7: Deployment to Expo Servers</div>
 
-- Викласти проект на сервери `expo`
+- Deploy the project to `expo` servers
